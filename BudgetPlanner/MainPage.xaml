@@ -3,12 +3,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BudgetPlanner"
+    xmlns:views="using:BudgetPlanner.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <Grid>
-
-    </Grid>
+    
+    <NavigationView 
+            IsBackButtonVisible="Collapsed"
+            IsSettingsVisible="False"
+            Content="{x:Bind ViewModel.SelectedView, Mode=OneWay}" 
+            SelectionChanged="{x:Bind Path=ViewModel.OnMenuSelectionChanged, Mode=OneWay}"
+            MenuItemsSource="{x:Bind ViewModel.MenuItems, Mode=OneWay}"
+        />
 </Page>
