@@ -4,12 +4,75 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BudgetPlanner.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:converters="using:BudgetPlanner.Converters" 
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls" 
+    xmlns:viewmodels="using:BudgetPlanner.ViewModels"
     mc:Ignorable="d"
-    d:DesignHeight="300"
+    d:DesignHeight="450"
     d:DesignWidth="400">
 
-    <Grid>
-        <TextBlock Text="Create operation"></TextBlock>
-    </Grid>
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="MaxWidth" Value="400"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="MaxWidth" Value="400"/>
+        </Style>
+
+        <converters:StringToFloatConverter x:Key="StringToFloatConverter"/>
+    </UserControl.Resources>
+
+    <ListView SelectionMode="None">
+        <ListView.Header>
+            <ListViewHeaderItem 
+                FontWeight="SemiBold" 
+                FontSize="28" 
+                Content="Add new operation"/>
+        </ListView.Header>
+
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="Margin" Value="0,8"></Setter>
+            </Style>
+        </ListView.ItemContainerStyle>
+
+        <ListViewItem>
+            <TextBox
+                Header="Amount" 
+                PlaceholderText="Enter amount"
+                Text="{x:Bind ViewModel.Amount, Converter={StaticResource StringToFloatConverter}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                BeforeTextChanging="{x:Bind ViewModel.ValidateAmount}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <ComboBox 
+                Header="Category" 
+                PlaceholderText="Select category"
+                SelectedItem="{x:Bind ViewModel.Category, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                ItemsSource="{x:Bind ViewModel.AvailableOperationCategories}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <controls:RadioButtons 
+                Header="Type"
+                SelectedIndex="{x:Bind ViewModel.OperationType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                ItemsSource="{x:Bind ViewModel.AvailableOperationTypes}">
+            </controls:RadioButtons>
+        </ListViewItem>
+
+        <ListViewItem>
+            <TextBox 
+                Header="Comment" 
+                PlaceholderText="Enter comment"
+                Text="{x:Bind ViewModel.Comment, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <Button Content="Add operation" 
+                    Command="{x:Bind ViewModel.ValidateAndCreateOperationCommand}"/>
+        </ListViewItem>
+    </ListView>
 </UserControl>

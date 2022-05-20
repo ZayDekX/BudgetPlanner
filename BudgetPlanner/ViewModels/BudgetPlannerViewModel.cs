@@ -9,10 +9,11 @@ using BudgetPlanner.Views;
 using BudgetPlanner.Templates;
 
 using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace BudgetPlanner.ViewModels
 {
-    internal class BudgetPlannerViewModel : INotifyPropertyChanged
+    internal class BudgetPlannerViewModel : ObservableObject
     {
         public BudgetPlannerViewModel()
         {
@@ -37,8 +38,6 @@ namespace BudgetPlanner.ViewModels
             new PageTemplate("Add operations", new SymbolIcon(Symbol.Edit), typeof(OperationCreatorView))
         };
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public Dictionary<NavigationViewItem, UserControl> Views { get; } = new();
 
         public ObservableCollection<NavigationViewItem> MenuItems { get; } = new();
@@ -46,14 +45,7 @@ namespace BudgetPlanner.ViewModels
         public UserControl SelectedView
         {
             get => _selectedView;
-            private set
-            {
-                if (_selectedView != value)
-                {
-                    _selectedView = value;
-                    OnPropertyChanged();
-                }
-            }
+            private set => SetProperty(ref _selectedView, value);
         }
 
         public void OnMenuSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -64,12 +56,6 @@ namespace BudgetPlanner.ViewModels
             }
 
             SelectedView = Views[selectedItem];
-            sender.UpdateLayout();
-        }
-
-        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

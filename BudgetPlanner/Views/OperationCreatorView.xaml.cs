@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 
+using BudgetPlanner.ViewModels;
+
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -20,6 +22,8 @@ namespace BudgetPlanner.Views
 {
     public sealed partial class OperationCreatorView : UserControl
     {
+        OperationCreatorViewModel ViewModel { get; } = new();
+
         public OperationCreatorView()
         {
             InitializeComponent();
