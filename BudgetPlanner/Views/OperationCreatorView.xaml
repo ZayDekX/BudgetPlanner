@@ -21,16 +21,12 @@
             <Setter Property="MinWidth" Value="200"/>
             <Setter Property="MaxWidth" Value="400"/>
         </Style>
-
         <converters:StringToFloatConverter x:Key="StringToFloatConverter"/>
     </UserControl.Resources>
 
     <ListView SelectionMode="None">
         <ListView.Header>
-            <ListViewHeaderItem 
-                FontWeight="SemiBold" 
-                FontSize="28" 
-                Content="Add new operation"/>
+            <ListViewHeaderItem Content="Add new operation"/>
         </ListView.Header>
 
         <ListView.ItemContainerStyle>

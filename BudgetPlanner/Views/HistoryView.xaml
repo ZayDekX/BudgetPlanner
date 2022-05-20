@@ -4,12 +4,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BudgetPlanner.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="using:BudgetPlanner.Models" xmlns:viewmodels="using:BudgetPlanner.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-        <TextBlock Text="History"></TextBlock>
-    </Grid>
+    <ListView 
+        ItemsSource="{x:Bind ViewModel.AvailableOperations, Mode=OneTime}"
+        SelectedItem="{x:Bind ViewModel.SelectedOperation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        <ListView.Header>
+            <ListViewHeaderItem Content="History"/>
+        </ListView.Header>
+
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="viewmodels:OperationViewModel">
+                <StackPanel>
+                    <ListView SelectionMode="None">
+                        <ListView.Header>
+                            <ListViewHeaderItem Content="{x:Bind Amount}" Foreground="{x:Bind AmountForeground}"/>
+                        </ListView.Header>
+                        <TextBlock Text="{x:Bind CategoryName}"/>
+                        <TextBlock Text="{x:Bind Comment}"/>
+                    </ListView>
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </UserControl>
