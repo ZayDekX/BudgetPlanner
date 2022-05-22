@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:BasePage
     x:Class="BudgetPlanner.Views.OperationCreatorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,7 +10,9 @@
     xmlns:viewmodels="using:BudgetPlanner.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="450"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    NavigationTitle="Add operation"
+    NavigationIconSymbol="Add">
 
     <UserControl.Resources>
         <Style TargetType="TextBox">
@@ -25,9 +27,6 @@
     </UserControl.Resources>
 
     <ListView SelectionMode="None">
-        <ListView.Header>
-            <ListViewHeaderItem Content="Add new operation"/>
-        </ListView.Header>
 
         <ListView.ItemContainerStyle>
             <Style TargetType="ListViewItem">
@@ -71,4 +70,4 @@
                     Command="{x:Bind ViewModel.ValidateAndCreateOperationCommand}"/>
         </ListViewItem>
     </ListView>
-</UserControl>
+</local:BasePage>

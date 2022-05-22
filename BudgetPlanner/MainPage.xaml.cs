@@ -1,5 +1,6 @@
 ﻿using BudgetPlanner.ViewModels;
 
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -11,11 +12,20 @@ namespace BudgetPlanner
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        BudgetPlannerViewModel ViewModel { get; } = new();
+        private BudgetPlannerViewModel ViewModel { get; } = new();
 
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        private void OnNavigationViewLoaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is not NavigationView navigationView)
+            {
+                return;
+            }
+            navigationView.SelectedItem = navigationView.MenuItems[0];
         }
     }
 }

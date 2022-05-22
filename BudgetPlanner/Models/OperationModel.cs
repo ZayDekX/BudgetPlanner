@@ -18,10 +18,6 @@ namespace BudgetPlanner.Models
 
         public OperationCategory Category { get; }
 
-        public bool IsIncome => OperationType is OperationType.Income;
-
-        public bool IsOutcome => OperationType is OperationType.Outcome;
-
         public string Comment { get; }
     }
 }

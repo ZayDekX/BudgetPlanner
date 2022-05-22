@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using BudgetPlanner.Data;
 using BudgetPlanner.Models;
 
 using Windows.UI;
@@ -21,11 +16,11 @@ namespace BudgetPlanner.ViewModels
         }
 
         public float Amount => _model.Amount;
-        
+
         public string Comment => _model.Comment;
 
         public string CategoryName => _model.Category.Name;
 
-        public Brush AmountForeground => new SolidColorBrush(_model.OperationType is Data.OperationType.Income ? Colors.Green : Colors.Red);
+        public Brush AmountForeground => new SolidColorBrush(_model.OperationType is OperationType.Income ? Colors.Green : Colors.Red);
     }
 }

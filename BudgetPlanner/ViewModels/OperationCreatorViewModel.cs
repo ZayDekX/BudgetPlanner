@@ -71,7 +71,7 @@ namespace BudgetPlanner.ViewModels
                 return;
             }
 
-            if (float.TryParse(args.NewText, out var newValue))
+            if (float.TryParse(args.NewText, out _))
             {
                 return;
             }

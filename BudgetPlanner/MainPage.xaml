@@ -8,12 +8,33 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-    <NavigationView 
+    <NavigationView x:Name="Navigation"
+            Header="{Binding Path=SelectedItem.NavigationTitle, RelativeSource={RelativeSource Mode=Self}}"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
-            Content="{x:Bind ViewModel.SelectedView, Mode=OneWay}" 
-            SelectionChanged="{x:Bind Path=ViewModel.OnMenuSelectionChanged, Mode=OneWay}"
-            MenuItemsSource="{x:Bind ViewModel.MenuItems, Mode=OneWay}"
-        />
+            Loaded="OnNavigationViewLoaded">
+
+        <NavigationView.HeaderTemplate>
+            <DataTemplate x:DataType="x:String">
+                <TextBlock Text="{Binding}"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           Margin="0 16"/>
+            </DataTemplate>
+        </NavigationView.HeaderTemplate>
+        
+        <NavigationView.MenuItemTemplate>
+            <DataTemplate x:DataType="views:BasePage">
+                <NavigationViewItem Icon="{x:Bind NavigationIcon}" Content="{x:Bind NavigationTitle}"/>
+            </DataTemplate>
+        </NavigationView.MenuItemTemplate>
+        
+        <NavigationView.MenuItems>
+            <views:OverviewView/>
+            <views:HistoryView/>
+            <views:OperationCreatorView/>
+        </NavigationView.MenuItems>
+
+        <Border Child="{Binding SelectedItem, ElementName=Navigation}"
+                Margin="40 0"/>
+    </NavigationView>
 </Page>

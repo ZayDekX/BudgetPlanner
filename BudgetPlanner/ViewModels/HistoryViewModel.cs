@@ -1,8 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 
-using BudgetPlanner.Data;
-using BudgetPlanner.Models;
-
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace BudgetPlanner.ViewModels

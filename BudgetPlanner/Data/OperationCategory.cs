@@ -5,12 +5,12 @@
         public OperationCategory(string name, OperationType operationType)
         {
             Name = name;
-            OperationType = operationType;
+            DefaultOperationType = operationType;
         }
 
         public string Name { get; }
-        
-        public OperationType OperationType { get; }
+
+        public OperationType DefaultOperationType { get; }
 
         public override string ToString()
         {
