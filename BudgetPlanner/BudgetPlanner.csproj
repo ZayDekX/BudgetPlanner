@@ -121,7 +121,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\StringToFloatConverter.cs" />
+    <Compile Include="Converters\StringToMoneyConverter.cs" />
+    <Compile Include="Data\Money.cs" />
     <Compile Include="Data\OperationCategory.cs" />
+    <Compile Include="Data\Settings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

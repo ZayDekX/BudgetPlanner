@@ -5,14 +5,18 @@
     xmlns:local="using:BudgetPlanner.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls" xmlns:data="using:BudgetPlanner.Data"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls" xmlns:data="using:BudgetPlanner.Data" xmlns:converters="using:BudgetPlanner.Converters"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="600"
     NavigationTitle="Overview"
     NavigationIconSymbol="Home"
     x:Name="OverviewRoot">
-
+    
+    <local:BasePage.Resources>
+        <converters:StringToMoneyConverter x:Key="MoneyConverter"/>
+    </local:BasePage.Resources>
+    
     <StackPanel Spacing="10" Margin="10">
         
         <StackPanel Orientation="Horizontal" Spacing="10">
@@ -36,7 +40,7 @@
 
                     <TextBlock 
                         Grid.Row="1"
-                        Text="{x:Bind ViewModel.Available}"
+                        Text="{x:Bind ViewModel.Available, Converter={StaticResource MoneyConverter}}"
                         FontSize="20"/>
                 </StackPanel>
             </Border>
@@ -51,7 +55,7 @@
 
                     <TextBlock 
                     Grid.Row="1"
-                    Text="{x:Bind ViewModel.Incomes}"
+                    Text="{x:Bind ViewModel.Incomes, Converter={StaticResource MoneyConverter}}"
                     FontSize="20"/>
 
                     <Button 
@@ -71,7 +75,7 @@
 
                     <TextBlock 
                     Grid.Row="1"
-                    Text="{x:Bind ViewModel.Outcomes}"
+                    Text="{x:Bind ViewModel.Outcomes, Converter={StaticResource MoneyConverter}}"
                     FontSize="20"/>
 
                     <Button 
@@ -108,7 +112,7 @@
                         HorizontalAlignment="Right">
                         
                         <TextBlock Text="Total spent:" Margin="4 0"/>
-                        <TextBlock Text="{x:Bind ViewModel.TotalSpent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="{x:Bind ViewModel.TotalSpent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MoneyConverter}}"/>
                     </StackPanel>
                 </Grid>
             </controls:Expander.Header>
@@ -126,8 +130,8 @@
                             <ProgressBar 
                                 Grid.ColumnSpan="2"
                                 VerticalAlignment="Stretch"
-                                Maximum="{x:Bind SourceViewModel.TotalSpent}"
-                                Value="{x:Bind TotalSpent}"/>
+                                Maximum="{x:Bind SourceViewModel.TotalSpent.Amount}"
+                                Value="{x:Bind Spent.Amount}"/>
                                 
                             <TextBlock 
                                 Grid.Column="0"
@@ -135,7 +139,7 @@
                                 
                             <TextBlock 
                                 Grid.Column="1"
-                                Text="{x:Bind TotalSpent}"/>
+                                Text="{x:Bind Spent}"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

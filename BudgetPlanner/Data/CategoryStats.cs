@@ -4,17 +4,17 @@ namespace BudgetPlanner.Data
 {
     public sealed class CategoryStats
     {
-        public CategoryStats(OverviewViewModel sourceViewModel, OperationCategory categoryInfo, float totalSpent)
+        public CategoryStats(OverviewViewModel sourceViewModel, OperationCategory categoryInfo, Money spent)
         {
             SourceViewModel = sourceViewModel;
             CategoryInfo = categoryInfo;
-            TotalSpent = totalSpent;
+            Spent = spent;
         }
 
         public OverviewViewModel SourceViewModel { get; }
 
         public OperationCategory CategoryInfo { get; }
 
-        public float TotalSpent { get; }
+        public Money Spent { get; }
     }
 }

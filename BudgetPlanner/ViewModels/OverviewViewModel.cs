@@ -19,10 +19,10 @@ namespace BudgetPlanner.ViewModels
 
         private OverviewPeriod _selectedPeriod;
 
-        private float _totalSpent;
-        private float _incomes;
-        private float _outcomes;
-        private float _available;
+        private Money _totalSpent = Money.Zero(Settings.Instance.CurrencyMarker);
+        private Money _incomes = Money.Zero(Settings.Instance.CurrencyMarker);
+        private Money _outcomes = Money.Zero(Settings.Instance.CurrencyMarker);
+        private Money _available = Money.Zero(Settings.Instance.CurrencyMarker);
 
         private readonly IStatsProvider _statsProvider;
 
@@ -40,25 +40,25 @@ namespace BudgetPlanner.ViewModels
             }
         }
 
-        public float Available
+        public Money Available
         {
             get => _available;
             set => SetProperty(ref _available, value);
         }
 
-        public float Incomes
+        public Money Incomes
         {
             get => _incomes;
             set => SetProperty(ref _incomes, value);
         }
 
-        public float Outcomes
+        public Money Outcomes
         {
             get => _outcomes;
             set => SetProperty(ref _outcomes, value);
         }
 
-        public float TotalSpent
+        public Money TotalSpent
         {
             get => _totalSpent;
             set => SetProperty(ref _totalSpent, value);
@@ -67,15 +67,15 @@ namespace BudgetPlanner.ViewModels
         private void UpdateStats()
         {
             Stats.Clear();
-            var stats = _statsProvider.GetStats(SelectedPeriod).ToList();
-            stats.Sort((x, y) => y.TotalSpent.CompareTo(x.TotalSpent));
+            var stats = _statsProvider.GetCategoryStatsFor(SelectedPeriod, this).ToList();
+            stats.Sort((x, y) => y.Spent.CompareTo(x.Spent));
 
             foreach(var stat in stats)
             {
                 Stats.Add(stat);
             }
 
-            TotalSpent = Stats.Sum(x => x.TotalSpent);
+            TotalSpent = new Money(Stats.Sum(x => x.Spent), Settings.Instance.CurrencyMarker);
         }
     }
 }

@@ -15,31 +15,34 @@ namespace BudgetPlanner.ViewModels
     {
         public OperationCreatorViewModel()
         {
-            ValidateAndCreateOperationCommand = new RelayCommand(CreateOperation, ValidateForm);
+            ValidateAndCreateOperationCommand = new RelayCommand(CreateOperation);
+            Date = DateTime.Today;
+            Time = DateTime.Now - DateTime.Today;
         }
 
-        private float _amount;
+        private Money _amount;
         private string _comment;
         private OperationType _operationType;
         private OperationCategory _category;
+        private DateTime _date;
+        private TimeSpan _time;
 
         public IEnumerable<OperationType> AvailableOperationTypes { get; } = (IEnumerable<OperationType>)Enum.GetValues(typeof(OperationType));
 
-        public IEnumerable<OperationCategory> AvailableOperationCategories { get; } = Array.Empty<OperationCategory>();
+        public IEnumerable<OperationCategory> AvailableOperationCategories { get; } = Settings.Instance.OperationCategories;
 
         public ICommand ValidateAndCreateOperationCommand { get; }
 
         private bool ValidateForm()
         {
-            return !float.IsInfinity(_amount) && !float.IsNaN(_amount) && _category is not null;
+            return _category is not null;
         }
 
         private void CreateOperation()
         {
-
         }
 
-        public float Amount
+        public Money Amount
         {
             get => _amount;
             set => SetProperty(ref _amount, value);
@@ -57,6 +60,18 @@ namespace BudgetPlanner.ViewModels
             set => SetProperty(ref _category, value);
         }
 
+        public DateTime Date
+        {
+            get => _date;
+            set => SetProperty(ref _date, value);
+        }
+
+        public TimeSpan Time
+        {
+            get => _time;
+            set => SetProperty(ref _time, value);
+        }
+
         public int OperationType
         {
             get => (int)_operationType;
@@ -67,7 +82,7 @@ namespace BudgetPlanner.ViewModels
         {
             if (string.IsNullOrEmpty(args.NewText))
             {
-                _amount = 0;
+                _amount = Money.Zero(Settings.Instance.CurrencyMarker);
                 return;
             }
 

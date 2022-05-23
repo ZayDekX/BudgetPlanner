@@ -23,7 +23,7 @@
             <Setter Property="MinWidth" Value="200"/>
             <Setter Property="MaxWidth" Value="400"/>
         </Style>
-        <converters:StringToFloatConverter x:Key="StringToFloatConverter"/>
+        <converters:StringToMoneyConverter x:Key="MoneyConverter"/>
     </UserControl.Resources>
 
     <ListView SelectionMode="None">
@@ -38,7 +38,7 @@
             <TextBox
                 Header="Amount" 
                 PlaceholderText="Enter amount"
-                Text="{x:Bind ViewModel.Amount, Converter={StaticResource StringToFloatConverter}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                Text="{x:Bind ViewModel.Amount, Converter={StaticResource MoneyConverter}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
                 BeforeTextChanging="{x:Bind ViewModel.ValidateAmount}"/>
         </ListViewItem>
 
@@ -51,18 +51,18 @@
         </ListViewItem>
 
         <ListViewItem>
-            <controls:RadioButtons 
-                Header="Type"
-                SelectedIndex="{x:Bind ViewModel.OperationType, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                ItemsSource="{x:Bind ViewModel.AvailableOperationTypes}">
-            </controls:RadioButtons>
-        </ListViewItem>
-
-        <ListViewItem>
             <TextBox 
                 Header="Comment" 
                 PlaceholderText="Enter comment"
                 Text="{x:Bind ViewModel.Comment, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <DatePicker Header="Date" SelectedDate="{x:Bind ViewModel.Date}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <TimePicker Header="Time" SelectedTime="{x:Bind ViewModel.Time}"/>
         </ListViewItem>
 
         <ListViewItem>

@@ -25,6 +25,7 @@ namespace BudgetPlanner
             {
                 return;
             }
+
             navigationView.SelectedItem = navigationView.MenuItems[0];
         }
     }

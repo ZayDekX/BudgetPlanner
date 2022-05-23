@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using BudgetPlanner.Data;
+using BudgetPlanner.ViewModels;
 
 namespace BudgetPlanner.Providers
 {
@@ -8,7 +9,7 @@ namespace BudgetPlanner.Providers
     {
         public static IStatsProvider Default { get; } = new StatsProvider();
 
-        public IReadOnlyList<CategoryStats> GetStats(OverviewPeriod period)
+        public IReadOnlyList<CategoryStats> GetCategoryStatsFor(OverviewPeriod period, OverviewViewModel viewModel)
         {
             return new List<CategoryStats>();
         }
