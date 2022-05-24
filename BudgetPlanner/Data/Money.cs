@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace BudgetPlanner.Data
+﻿namespace BudgetPlanner.Data
 {
-    public struct Money
+    public class Money
     {
         public Money(int value, string marker)
         {
@@ -12,11 +10,11 @@ namespace BudgetPlanner.Data
 
         public Money(double value, string marker)
         {
-            _value = (int)value * 100;
+            _value = (int)(value * 100);
             CurrencyMarker = marker;
         }
 
-        public double Amount => _value / 100;
+        public double Amount => _value / 100d;
 
         private readonly int _value;
 

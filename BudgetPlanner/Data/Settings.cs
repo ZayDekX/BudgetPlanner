@@ -1,23 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
+
+using Windows.Storage;
 
 namespace BudgetPlanner.Data
 {
-    internal class Settings
+    internal static class Settings
     {
-        public static Settings Instance { get; } = new Settings()
-        {
-            CurrencyMarker = "$",
-            OperationCategories = new List<OperationCategory>()
-            {
-                new("Shopping", OperationType.Outcome),
-                new("Food", OperationType.Outcome),
-                new("Housing", OperationType.Outcome),
-                new("Salary", OperationType.Income),
-            }
-        };
+        public static string AppDataFile { get; } = "data.db";
 
-        public string CurrencyMarker { get; set; }
+        public static string AppDataFilePath { get; } = Path.Combine(ApplicationData.Current.LocalFolder.Path, AppDataFile);
 
-        public IEnumerable<OperationCategory> OperationCategories { get; internal set; }
+        public static string CurrencyMarker { get; } = "$";
     }
 }

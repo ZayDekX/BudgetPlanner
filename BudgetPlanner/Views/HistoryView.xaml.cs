@@ -1,16 +1,22 @@
 ﻿using BudgetPlanner.ViewModels;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+using Windows.UI.Xaml;
 
 namespace BudgetPlanner.Views
 {
     public sealed partial class HistoryView
     {
-        public HistoryViewModel ViewModel { get; } = HistoryViewModel.Instance;
+        public HistoryViewModel ViewModel { get; } = new();
 
         public HistoryView()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Update();
         }
     }
 }

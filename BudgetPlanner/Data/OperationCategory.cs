@@ -2,15 +2,22 @@
 {
     public sealed class OperationCategory
     {
+        public OperationCategory()
+        {
+
+        }
+
         public OperationCategory(string name, OperationType operationType)
         {
             Name = name;
-            DefaultOperationType = operationType;
+            OperationType = operationType;
         }
 
-        public string Name { get; }
+        public int OperationCategoryId { get; set; }
 
-        public OperationType DefaultOperationType { get; }
+        public string Name { get; set; }
+
+        public OperationType OperationType { get; set; }
 
         public override string ToString()
         {

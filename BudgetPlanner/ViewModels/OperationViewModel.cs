@@ -8,19 +8,19 @@ namespace BudgetPlanner.ViewModels
 {
     public class OperationViewModel
     {
-        private readonly OperationModel _model;
+        private readonly Operation _model;
 
-        public OperationViewModel(OperationModel model)
+        public OperationViewModel(Operation model)
         {
             _model = model;
         }
 
-        public float Amount => _model.Amount;
+        public Money Amount => _model.Amount;
 
         public string Comment => _model.Comment;
 
         public string CategoryName => _model.Category.Name;
 
-        public Brush AmountForeground => new SolidColorBrush(_model.OperationType is OperationType.Income ? Colors.Green : Colors.Red);
+        public Brush AmountForeground => new SolidColorBrush(_model.Category.OperationType is OperationType.Income ? Colors.Green : Colors.Red);
     }
 }

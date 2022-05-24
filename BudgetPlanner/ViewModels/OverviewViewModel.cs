@@ -19,10 +19,10 @@ namespace BudgetPlanner.ViewModels
 
         private OverviewPeriod _selectedPeriod;
 
-        private Money _totalSpent = Money.Zero(Settings.Instance.CurrencyMarker);
-        private Money _incomes = Money.Zero(Settings.Instance.CurrencyMarker);
-        private Money _outcomes = Money.Zero(Settings.Instance.CurrencyMarker);
-        private Money _available = Money.Zero(Settings.Instance.CurrencyMarker);
+        private Money _totalSpent = Money.Zero(Settings.CurrencyMarker);
+        private Money _incomes = Money.Zero(Settings.CurrencyMarker);
+        private Money _outcomes = Money.Zero(Settings.CurrencyMarker);
+        private Money _available = Money.Zero(Settings.CurrencyMarker);
 
         private readonly IStatsProvider _statsProvider;
 
@@ -75,7 +75,7 @@ namespace BudgetPlanner.ViewModels
                 Stats.Add(stat);
             }
 
-            TotalSpent = new Money(Stats.Sum(x => x.Spent), Settings.Instance.CurrencyMarker);
+            TotalSpent = new Money(Stats.Sum(x => x.Spent), Settings.CurrencyMarker);
         }
     }
 }

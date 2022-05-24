@@ -10,6 +10,11 @@ namespace BudgetPlanner.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            if(value is null)
+            {
+                return "0";
+            }
+
             return ((Money)value).ToString();
         }
 
@@ -22,17 +27,17 @@ namespace BudgetPlanner.Converters
 
             if (string.IsNullOrEmpty(str))
             {
-                return Money.Zero(Settings.Instance.CurrencyMarker);
+                return Money.Zero(Settings.CurrencyMarker);
             }
 
             var i = str.IndexOf(' ');
 
-            if(i < 0)
+            if(i <= 0)
             {
-                i = str.Length - 1;
+                i = str.Length;
             }
 
-            return new Money(double.Parse(str.Substring(0, i)), Settings.Instance.CurrencyMarker);
+            return new Money(double.Parse(str.Substring(0, i)), Settings.CurrencyMarker);
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
+using BudgetPlanner.Contexts;
 using BudgetPlanner.Data;
+using BudgetPlanner.Models;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -29,18 +32,9 @@ namespace BudgetPlanner.ViewModels
 
         public IEnumerable<OperationType> AvailableOperationTypes { get; } = (IEnumerable<OperationType>)Enum.GetValues(typeof(OperationType));
 
-        public IEnumerable<OperationCategory> AvailableOperationCategories { get; } = Settings.Instance.OperationCategories;
-
+        public ObservableCollection<OperationCategory> AvailableOperationCategories { get; } = new();
+        
         public ICommand ValidateAndCreateOperationCommand { get; }
-
-        private bool ValidateForm()
-        {
-            return _category is not null;
-        }
-
-        private void CreateOperation()
-        {
-        }
 
         public Money Amount
         {
@@ -78,11 +72,37 @@ namespace BudgetPlanner.ViewModels
             set => SetProperty(ref _operationType, (OperationType)value);
         }
 
+        public bool IsValid => _category is not null;
+
+        internal void Update()
+        {
+            var context = new BudgetPlannerContext();
+            AvailableOperationCategories.Clear();
+
+            foreach (var category in context.Categories)
+            {
+                AvailableOperationCategories.Add(category);
+            }
+        }
+
+        private void CreateOperation()
+        {
+            if (!IsValid)
+            {
+                return;
+            }
+
+            var context = new BudgetPlannerContext();
+            context.Operations.Add(new Operation(_amount, _category, _comment, _date + _time));
+            context.Attach(_category);
+            context.SaveChanges();
+        }
+
         public void ValidateAmount(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
             if (string.IsNullOrEmpty(args.NewText))
             {
-                _amount = Money.Zero(Settings.Instance.CurrencyMarker);
+                _amount = Money.Zero(Settings.CurrencyMarker);
                 return;
             }
 
