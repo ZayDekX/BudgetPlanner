@@ -35,6 +35,7 @@
         </NavigationView.MenuItems>
 
         <Border Child="{Binding SelectedItem, ElementName=Navigation}"
-                Margin="40 0"/>
+                Margin="40 0"
+                HorizontalAlignment="Stretch"/>
     </NavigationView>
 </Page>

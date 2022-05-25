@@ -12,9 +12,10 @@ namespace BudgetPlanner.ViewModels
 {
     public class OverviewViewModel : ObservableObject
     {
-        public OverviewViewModel(IStatsProvider statsProvider)
+        public OverviewViewModel(IDataProvider statsProvider)
         {
             _statsProvider = statsProvider;
+            SelectedPeriod = OverviewPeriod.Day;
         }
 
         private OverviewPeriod _selectedPeriod;
@@ -23,20 +24,24 @@ namespace BudgetPlanner.ViewModels
         private Money _incomes = Money.Zero(Settings.CurrencyMarker);
         private Money _outcomes = Money.Zero(Settings.CurrencyMarker);
         private Money _available = Money.Zero(Settings.CurrencyMarker);
-
-        private readonly IStatsProvider _statsProvider;
+        private ObservableCollection<CategoryStats> _stats = new();
+        private readonly IDataProvider _statsProvider;
 
         public IEnumerable<OverviewPeriod> AvailablePeriods { get; } = (OverviewPeriod[])Enum.GetValues(typeof(OverviewPeriod));
 
-        public ObservableCollection<CategoryStats> Stats { get; } = new();
+        public ObservableCollection<CategoryStats> Stats
+        {
+            get => _stats;
+            set => SetProperty(ref _stats, value);
+        }
 
         public OverviewPeriod SelectedPeriod
         {
             get => _selectedPeriod;
             set
             {
-                SetProperty(ref _selectedPeriod, value);
-                UpdateStats();
+                _ = SetProperty(ref _selectedPeriod, value);
+                Update();
             }
         }
 
@@ -64,18 +69,27 @@ namespace BudgetPlanner.ViewModels
             set => SetProperty(ref _totalSpent, value);
         }
 
-        private void UpdateStats()
+        public void Update()
         {
-            Stats.Clear();
-            var stats = _statsProvider.GetCategoryStatsFor(SelectedPeriod, this).ToList();
-            stats.Sort((x, y) => y.Spent.CompareTo(x.Spent));
+            var operations = _statsProvider.GetOperations().ToList();
 
-            foreach(var stat in stats)
-            {
-                Stats.Add(stat);
-            }
+            Available = new Money(operations.Select(o => o.Amount.Amount * (o.Category.OperationType is OperationType.Outcome ? -1 : 1)).Sum(), Settings.CurrencyMarker);
+
+            Incomes = new(operations.Where(o => o.Category.OperationType is OperationType.Income && o.DateTime > SelectedPeriodStart).Select(o => o.Amount.Amount).Sum(), Settings.CurrencyMarker);
+            Outcomes = new(operations.Where(o => o.Category.OperationType is OperationType.Outcome && o.DateTime > SelectedPeriodStart).Select(o => o.Amount.Amount).Sum(), Settings.CurrencyMarker);
+
+            Stats = new(_statsProvider.GetCategoryStats(SelectedPeriodStart));
 
             TotalSpent = new Money(Stats.Sum(x => x.Spent), Settings.CurrencyMarker);
         }
+
+        private DateTime SelectedPeriodStart => SelectedPeriod switch
+        {
+            OverviewPeriod.Day => DateTime.Today,
+            OverviewPeriod.Week => DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + 1),
+            OverviewPeriod.Month => DateTime.Today.AddDays(-DateTime.Today.Day + 1),
+            OverviewPeriod.Year => DateTime.Today.AddDays(-DateTime.Today.Day + 1).AddMonths(-DateTime.Today.Month + 1),
+            _ => DateTime.MinValue
+        };
     }
 }

@@ -19,12 +19,12 @@ namespace BudgetPlanner.Contexts
                 file.Close();
             }
 
-            Database.EnsureCreated();
+            _ = Database.EnsureCreated();
 
             if (!Categories.Any())
             {
                 Categories.AddRange(_defaultOperationCategories);
-                SaveChanges();
+                _ = SaveChanges();
             }
         }
 
@@ -42,19 +42,19 @@ namespace BudgetPlanner.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Filename={Settings.AppDataFilePath}");
+            _ = optionsBuilder.UseSqlite($"Filename={Settings.AppDataFilePath}");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Operation>(builder =>
+            _ = modelBuilder.Entity<Operation>(builder =>
                 {
-                    builder
+                    _ = builder
                         .Property(e => e.Amount)
                         .HasConversion(
                             v => (int)(v.Amount * 100),
                             v => new Money(v, Settings.CurrencyMarker));
-                    builder
+                    _ = builder
                         .Property(e => e.Category)
                         .HasConversion(
                             v => v.OperationCategoryId,

@@ -131,8 +131,8 @@
     </Compile>
     <Compile Include="Models\Operation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\IStatsProvider.cs" />
-    <Compile Include="Providers\StatsProvider.cs" />
+    <Compile Include="Providers\IDataProvider.cs" />
+    <Compile Include="Providers\DataProvider.cs" />
     <Compile Include="ViewModels\BudgetPlannerViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
     <Compile Include="ViewModels\OperationCreatorViewModel.cs" />

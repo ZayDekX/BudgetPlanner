@@ -10,7 +10,7 @@ namespace BudgetPlanner.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if(value is null)
+            if (value is null)
             {
                 return "0";
             }
@@ -32,7 +32,7 @@ namespace BudgetPlanner.Converters
 
             var i = str.IndexOf(' ');
 
-            if(i <= 0)
+            if (i <= 0)
             {
                 i = str.Length;
             }

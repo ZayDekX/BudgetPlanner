@@ -11,5 +11,6 @@ namespace BudgetPlanner.Data
         public static string AppDataFilePath { get; } = Path.Combine(ApplicationData.Current.LocalFolder.Path, AppDataFile);
 
         public static string CurrencyMarker { get; } = "$";
+        public static int MaxOperations { get; } = 100;
     }
 }

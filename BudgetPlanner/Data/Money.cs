@@ -22,7 +22,7 @@
 
         public static Money Zero(string marker)
         {
-            return new Money(0, marker); 
+            return new Money(0, marker);
         }
 
         public override string ToString()

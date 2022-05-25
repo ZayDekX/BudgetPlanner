@@ -27,13 +27,13 @@ namespace BudgetPlanner.ViewModels
         private string _comment;
         private OperationType _operationType;
         private OperationCategory _category;
-        private DateTime _date;
+        private DateTimeOffset _date;
         private TimeSpan _time;
 
         public IEnumerable<OperationType> AvailableOperationTypes { get; } = (IEnumerable<OperationType>)Enum.GetValues(typeof(OperationType));
 
         public ObservableCollection<OperationCategory> AvailableOperationCategories { get; } = new();
-        
+
         public ICommand ValidateAndCreateOperationCommand { get; }
 
         public Money Amount
@@ -54,7 +54,7 @@ namespace BudgetPlanner.ViewModels
             set => SetProperty(ref _category, value);
         }
 
-        public DateTime Date
+        public DateTimeOffset Date
         {
             get => _date;
             set => SetProperty(ref _date, value);
@@ -72,7 +72,7 @@ namespace BudgetPlanner.ViewModels
             set => SetProperty(ref _operationType, (OperationType)value);
         }
 
-        public bool IsValid => _category is not null;
+        public bool IsValid => Amount > 0 && _category is not null;
 
         internal void Update()
         {
@@ -93,9 +93,9 @@ namespace BudgetPlanner.ViewModels
             }
 
             var context = new BudgetPlannerContext();
-            context.Operations.Add(new Operation(_amount, _category, _comment, _date + _time));
-            context.Attach(_category);
-            context.SaveChanges();
+            _ = context.Operations.Add(new Operation(_amount, _category, _comment, _date.DateTime + _time));
+            _ = context.Attach(_category);
+            _ = context.SaveChanges();
         }
 
         public void ValidateAmount(TextBox sender, TextBoxBeforeTextChangingEventArgs args)

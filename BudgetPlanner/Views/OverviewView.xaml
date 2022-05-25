@@ -5,7 +5,9 @@
     xmlns:local="using:BudgetPlanner.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls" xmlns:data="using:BudgetPlanner.Data" xmlns:converters="using:BudgetPlanner.Converters"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls" 
+    xmlns:data="using:BudgetPlanner.Data" 
+    xmlns:converters="using:BudgetPlanner.Converters"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="600"
@@ -40,7 +42,7 @@
 
                     <TextBlock 
                         Grid.Row="1"
-                        Text="{x:Bind ViewModel.Available, Converter={StaticResource MoneyConverter}}"
+                        Text="{x:Bind ViewModel.Available, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MoneyConverter}}"
                         FontSize="20"/>
                 </StackPanel>
             </Border>
@@ -55,7 +57,7 @@
 
                     <TextBlock 
                     Grid.Row="1"
-                    Text="{x:Bind ViewModel.Incomes, Converter={StaticResource MoneyConverter}}"
+                    Text="{x:Bind ViewModel.Incomes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MoneyConverter}}"
                     FontSize="20"/>
 
                     <Button 
@@ -75,7 +77,7 @@
 
                     <TextBlock 
                     Grid.Row="1"
-                    Text="{x:Bind ViewModel.Outcomes, Converter={StaticResource MoneyConverter}}"
+                    Text="{x:Bind ViewModel.Outcomes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MoneyConverter}}"
                     FontSize="20"/>
 
                     <Button 
@@ -117,7 +119,7 @@
                 </Grid>
             </controls:Expander.Header>
             <ListView 
-                ItemsSource="{x:Bind ViewModel.Stats}"
+                ItemsSource="{x:Bind ViewModel.Stats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:CategoryStats">
@@ -130,7 +132,7 @@
                             <ProgressBar 
                                 Grid.ColumnSpan="2"
                                 VerticalAlignment="Stretch"
-                                Maximum="{x:Bind SourceViewModel.TotalSpent.Amount}"
+                                Maximum="{Binding ViewModel.TotalSpent.Amount, ElementName=OverviewRoot}"
                                 Value="{x:Bind Spent.Amount}"/>
                                 
                             <TextBlock 

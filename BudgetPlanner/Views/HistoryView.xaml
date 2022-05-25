@@ -14,7 +14,7 @@
     NavigationIconSymbol="Clock">
 
     <ListView 
-        ItemsSource="{x:Bind ViewModel.AvailableOperations, Mode=OneTime}"
+        ItemsSource="{x:Bind ViewModel.AvailableOperations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         SelectedItem="{x:Bind ViewModel.SelectedOperation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
         <ListView.ItemTemplate>

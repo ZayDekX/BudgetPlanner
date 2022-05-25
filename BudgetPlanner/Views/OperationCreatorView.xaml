@@ -58,11 +58,11 @@
         </ListViewItem>
 
         <ListViewItem>
-            <DatePicker Header="Date" SelectedDate="{x:Bind ViewModel.Date}"/>
+            <DatePicker Header="Date" SelectedDate="{x:Bind ViewModel.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </ListViewItem>
 
         <ListViewItem>
-            <TimePicker Header="Time" SelectedTime="{x:Bind ViewModel.Time}"/>
+            <TimePicker Header="Time" SelectedTime="{x:Bind ViewModel.Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </ListViewItem>
 
         <ListViewItem>

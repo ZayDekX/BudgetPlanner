@@ -2,6 +2,8 @@
 using System.Linq;
 
 using BudgetPlanner.Contexts;
+using BudgetPlanner.Data;
+using BudgetPlanner.Providers;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
@@ -9,9 +11,20 @@ namespace BudgetPlanner.ViewModels
 {
     public class HistoryViewModel : ObservableObject
     {
-        private OperationViewModel _selectedOperation;
+        public HistoryViewModel(IDataProvider dataProvider)
+        {
+            _dataProvider = dataProvider;
+        }
 
-        public ObservableCollection<OperationViewModel> AvailableOperations { get; } = new();
+        private OperationViewModel _selectedOperation;
+        private ObservableCollection<OperationViewModel> _availableOperations = new();
+        private readonly IDataProvider _dataProvider;
+
+        public ObservableCollection<OperationViewModel> AvailableOperations
+        {
+            get => _availableOperations;
+            set => SetProperty(ref _availableOperations, value);
+        }
 
         public OperationViewModel SelectedOperation
         {
@@ -21,16 +34,13 @@ namespace BudgetPlanner.ViewModels
 
         internal void Update()
         {
-            AvailableOperations.Clear();
+            var operations =
+                _dataProvider
+                    .GetOperations(Settings.MaxOperations)
+                    .OrderByDescending(o => o.DateTime)
+                    .Select(o => new OperationViewModel(o)).ToList();
 
-            var context = new BudgetPlannerContext();
-
-            var operations = context.Operations.OrderByDescending(o => o.DateTime).Select(o => new OperationViewModel(o)).ToList();
-
-            foreach (var operation in operations)
-            {
-                AvailableOperations.Add(operation);
-            }
+            AvailableOperations = new(operations);
         }
     }
 }
