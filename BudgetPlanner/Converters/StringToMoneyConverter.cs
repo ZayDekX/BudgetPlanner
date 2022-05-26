@@ -10,20 +10,22 @@ namespace BudgetPlanner.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is null)
+            if (value is not Money money)
             {
                 return "0";
             }
 
-            return ((Money)value).ToString();
+            if (parameter is true)
+            {
+                return money.ToString();
+            }
+
+            return money.Amount.ToString("n2");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (value is not string str)
-            {
-                return default;
-            }
+            var str = value as string;
 
             if (string.IsNullOrEmpty(str))
             {

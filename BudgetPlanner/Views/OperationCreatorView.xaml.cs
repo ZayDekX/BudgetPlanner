@@ -1,4 +1,6 @@
-﻿using BudgetPlanner.ViewModels;
+﻿using System;
+
+using BudgetPlanner.ViewModels;
 
 using Windows.UI.Xaml;
 
@@ -11,12 +13,12 @@ namespace BudgetPlanner.Views
         public OperationCreatorView()
         {
             InitializeComponent();
-            Loaded += OnLoaded;
+            Loaded += Update;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private async void Update(object sender, object args)
         {
-            ViewModel.Update();
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, ViewModel.Update);
         }
     }
 }

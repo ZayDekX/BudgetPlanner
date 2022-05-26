@@ -38,7 +38,7 @@ namespace BudgetPlanner.ViewModels
                 _dataProvider
                     .GetOperations(Settings.MaxOperations)
                     .OrderByDescending(o => o.DateTime)
-                    .Select(o => new OperationViewModel(o)).ToList();
+                    .Select(o => new OperationViewModel(o));
 
             AvailableOperations = new(operations);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using BudgetPlanner.Contexts;
@@ -18,7 +19,7 @@ namespace BudgetPlanner.ViewModels
     {
         public OperationCreatorViewModel()
         {
-            ValidateAndCreateOperationCommand = new RelayCommand(CreateOperation);
+            ValidateAndCreateOperationCommand = new AsyncRelayCommand(CreateOperation);
             Date = DateTime.Today;
             Time = DateTime.Now - DateTime.Today;
         }
@@ -29,10 +30,15 @@ namespace BudgetPlanner.ViewModels
         private OperationCategory _category;
         private DateTimeOffset _date;
         private TimeSpan _time;
+        private ObservableCollection<OperationCategory> _availableOperationCategories = new();
 
         public IEnumerable<OperationType> AvailableOperationTypes { get; } = (IEnumerable<OperationType>)Enum.GetValues(typeof(OperationType));
 
-        public ObservableCollection<OperationCategory> AvailableOperationCategories { get; } = new();
+        public ObservableCollection<OperationCategory> AvailableOperationCategories
+        {
+            get => _availableOperationCategories;
+            set => SetProperty(ref _availableOperationCategories, value);
+        }
 
         public ICommand ValidateAndCreateOperationCommand { get; }
 
@@ -85,7 +91,7 @@ namespace BudgetPlanner.ViewModels
             }
         }
 
-        private void CreateOperation()
+        private async Task CreateOperation()
         {
             if (!IsValid)
             {
@@ -93,20 +99,17 @@ namespace BudgetPlanner.ViewModels
             }
 
             var context = new BudgetPlannerContext();
-            _ = context.Operations.Add(new Operation(_amount, _category, _comment, _date.DateTime + _time));
-            _ = context.Attach(_category);
-            _ = context.SaveChanges();
+
+            await context.Operations.AddAsync(new Operation(_amount, _category, _comment, _date.DateTime + _time));
+
+            context.Attach(_category);
+
+            await context.SaveChangesAsync();
         }
 
         public void ValidateAmount(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
-            if (string.IsNullOrEmpty(args.NewText))
-            {
-                _amount = Money.Zero(Settings.CurrencyMarker);
-                return;
-            }
-
-            if (float.TryParse(args.NewText, out _))
+            if (string.IsNullOrEmpty(args.NewText) || float.TryParse(args.NewText, out _))
             {
                 return;
             }

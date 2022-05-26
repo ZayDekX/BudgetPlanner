@@ -92,7 +92,8 @@
                     MinWidth="100"
                     Header="Period"
                     ItemsSource="{x:Bind ViewModel.AvailablePeriods}"
-                    SelectedItem="{x:Bind ViewModel.SelectedPeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    SelectedItem="{x:Bind ViewModel.SelectedPeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionChanged="Update"/>
 
             </Border>
         </StackPanel>

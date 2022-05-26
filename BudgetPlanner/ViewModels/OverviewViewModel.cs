@@ -8,6 +8,9 @@ using BudgetPlanner.Providers;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+
 namespace BudgetPlanner.ViewModels
 {
     public class OverviewViewModel : ObservableObject
@@ -38,11 +41,7 @@ namespace BudgetPlanner.ViewModels
         public OverviewPeriod SelectedPeriod
         {
             get => _selectedPeriod;
-            set
-            {
-                _ = SetProperty(ref _selectedPeriod, value);
-                Update();
-            }
+            set => SetProperty(ref _selectedPeriod, value);
         }
 
         public Money Available

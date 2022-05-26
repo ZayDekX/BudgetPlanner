@@ -1,4 +1,6 @@
-﻿using BudgetPlanner.Providers;
+﻿using System;
+
+using BudgetPlanner.Providers;
 using BudgetPlanner.ViewModels;
 
 namespace BudgetPlanner.Views
@@ -10,7 +12,12 @@ namespace BudgetPlanner.Views
         public HistoryView()
         {
             InitializeComponent();
-            Loaded += (_, _) => ViewModel.Update();
+            Loaded += Update;
+        }
+
+        private async void Update(object sender, object args)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, ViewModel.Update);
         }
     }
 }

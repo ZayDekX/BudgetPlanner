@@ -39,7 +39,7 @@
                 Header="Amount" 
                 PlaceholderText="Enter amount"
                 Text="{x:Bind ViewModel.Amount, Converter={StaticResource MoneyConverter}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                BeforeTextChanging="{x:Bind ViewModel.ValidateAmount}"/>
+                BeforeTextChanging="{x:Bind ViewModel.ValidateAmount, FallbackValue=0}"/>
         </ListViewItem>
 
         <ListViewItem>
