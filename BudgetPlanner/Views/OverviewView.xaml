@@ -12,23 +12,64 @@
     NavigationTitle="Overview"
     NavigationIconSymbol="Home"
     x:Name="OverviewRoot">
-    
+
     <local:BasePage.Resources>
         <converters:StringToMoneyConverter x:Key="MoneyConverter"/>
     </local:BasePage.Resources>
-    
-    <StackPanel Spacing="10" Margin="10">
+
+    <ScrollViewer>
         
-        <StackPanel Orientation="Horizontal" Spacing="10">
-            <StackPanel.Resources>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="StatsExpander.(Grid.Column)" Value="0"/>
+                        <Setter Target="StatsExpander.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="StatsExpander.(Grid.Row)" Value="2"/>
+                        <Setter Target="StatsExpander.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="LayoutRoot.ColumnDefinitions[0].Width" Value="*"/>
+                        <Setter Target="LayoutRoot.ColumnDefinitions[1].Width" Value="*"/>
+                        <Setter Target="LayoutRoot.ColumnDefinitions[2].Width" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        <Grid RowSpacing="10" 
+          ColumnSpacing="10"
+          x:Name="LayoutRoot">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.Resources>
                 <Style TargetType="Border">
                     <Setter Property="Padding" Value="16"/>
                     <Setter Property="CornerRadius" Value="4"/>
-                    <Setter Property="Background" Value="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"/>
+                    <Setter Property="Background" Value="#0BFFFFFF"/>
                 </Style>
-            </StackPanel.Resources>
+            </Grid.Resources>
 
-            <Border>
+            <Border Grid.Row="0" Grid.Column="0">
                 <StackPanel 
                     MinWidth="100"
                     Spacing="4"
@@ -45,7 +86,15 @@
                 </StackPanel>
             </Border>
 
-            <Border>
+            <Border Grid.Row="0" Grid.Column="1">
+                <ComboBox
+                    MinWidth="100"
+                    Header="Period"
+                    ItemsSource="{x:Bind ViewModel.AvailablePeriods}"
+                    SelectedItem="{x:Bind ViewModel.SelectedPeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="0">
                 <StackPanel 
                     Spacing="4">
 
@@ -65,7 +114,7 @@
                 </StackPanel>
             </Border>
 
-            <Border>
+            <Border Grid.Row="1" Grid.Column="1">
                 <StackPanel 
                     Spacing="4">
 
@@ -84,67 +133,73 @@
                     Content="View details"/>
                 </StackPanel>
             </Border>
-            
-            <Border>
-                <ComboBox
-                    MinWidth="100"
-                    Header="Period"
-                    ItemsSource="{x:Bind ViewModel.AvailablePeriods}"
-                    SelectedItem="{x:Bind ViewModel.SelectedPeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            </Border>
-        </StackPanel>
+            <controls:Expander x:Name="StatsExpander"
+                           Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Grid.ColumnSpan="1"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalAlignment="Top">
 
-        <controls:Expander 
-            HorizontalAlignment="Stretch">
-            <controls:Expander.Header>
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" 
+                <controls:Expander.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" 
                                Text="Statistics"/>
 
-                    <StackPanel 
+                        <StackPanel 
                         Grid.Column="1"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right">
-                        
-                        <TextBlock Text="Total spent:" Margin="4 0"/>
-                        <TextBlock Text="{x:Bind ViewModel.TotalSpent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MoneyConverter}}"/>
-                    </StackPanel>
-                </Grid>
-            </controls:Expander.Header>
-            <ListView 
-                ItemsSource="{x:Bind ViewModel.Stats}"
-                SelectionMode="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="data:CategoryStats">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
 
-                            <ProgressBar 
-                                Grid.ColumnSpan="2"
+                            <TextBlock Text="{x:Bind ViewModel.SelectedPeriodRange, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Grid>
+                </controls:Expander.Header>
+
+                <ListView
+                ItemsSource="{x:Bind ViewModel.Stats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectionMode="None">
+                    <ListView.Header>
+                        <ListViewHeaderItem>
+                            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0" Padding="0">
+                                <TextBlock Text="Total spent:"/>
+                                <TextBlock Text="{x:Bind ViewModel.TotalSpent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                            </StackPanel>
+                        </ListViewHeaderItem>
+                    </ListView.Header>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="data:CategoryStats">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ProgressBar Grid.Column="0" Grid.ColumnSpan="2"
                                 VerticalAlignment="Stretch"
                                 Maximum="{x:Bind SourceViewModel.TotalSpent.Amount}"
-                                Value="{x:Bind Spent.Amount}"/>
-                                
-                            <TextBlock 
-                                Grid.Column="0"
-                                Text="{x:Bind CategoryInfo.Name}"/>
-                                
-                            <TextBlock 
-                                Grid.Column="1"
-                                Text="{x:Bind Spent}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                Value="{x:Bind Spent.Amount}"
+                                Height="25"/>
 
-        </controls:Expander>
-    </StackPanel>
+                                <TextBlock Grid.Column="0"
+                                Padding="4"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind CategoryInfo.Name}"/>
+
+                                <TextBlock Grid.Column="1"
+                                Padding="4"
+                                VerticalAlignment="Center"
+                                Text="{x:Bind Spent}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </controls:Expander>
+        </Grid>
+    </ScrollViewer>
 </local:BasePage>

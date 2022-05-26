@@ -14,6 +14,24 @@
             IsSettingsVisible="False"
             Loaded="OnNavigationViewLoaded">
 
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Container.Padding" Value="40 0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
         <NavigationView.HeaderTemplate>
             <DataTemplate x:DataType="x:String">
                 <TextBlock Text="{Binding}"
@@ -35,6 +53,7 @@
         </NavigationView.MenuItems>
 
         <Border Child="{Binding SelectedItem, ElementName=Navigation}"
-                Margin="40 0"/>
+                Padding="40 0 8 0"
+                x:Name="Container"/>
     </NavigationView>
 </Page>
