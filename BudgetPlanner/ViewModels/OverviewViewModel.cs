@@ -75,7 +75,7 @@ namespace BudgetPlanner.ViewModels
             Stats.Clear();
             var stats = _statsProvider.GetCategoryStatsFor(SelectedPeriod, this).ToList();
             stats.Sort((x, y) => y.Spent.CompareTo(x.Spent));
-
+            
             foreach (var stat in stats)
             {
                 Stats.Add(stat);

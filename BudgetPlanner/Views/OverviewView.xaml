@@ -5,7 +5,9 @@
     xmlns:local="using:BudgetPlanner.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls" xmlns:data="using:BudgetPlanner.Data" xmlns:converters="using:BudgetPlanner.Converters"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls" 
+    xmlns:data="using:BudgetPlanner.Data" 
+    xmlns:converters="using:BudgetPlanner.Converters"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="600"
@@ -15,6 +17,7 @@
 
     <local:BasePage.Resources>
         <converters:StringToMoneyConverter x:Key="MoneyConverter"/>
+        <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
     </local:BasePage.Resources>
 
     <ScrollViewer>
@@ -46,9 +49,10 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         
-        <Grid RowSpacing="10" 
-          ColumnSpacing="10"
-          x:Name="LayoutRoot">
+        <Grid 
+            RowSpacing="10" 
+            ColumnSpacing="10"
+            x:Name="LayoutRoot">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -95,65 +99,64 @@
             </Border>
 
             <Border Grid.Row="1" Grid.Column="0">
-                <StackPanel 
-                    Spacing="4">
+                <StackPanel Spacing="4">
 
                     <TextBlock
-                    Grid.Row="0"
-                    Text="Incomes"/>
+                        Grid.Row="0"
+                        Text="Incomes"/>
 
                     <TextBlock 
-                    Grid.Row="1"
-                    Text="{x:Bind ViewModel.Incomes, Converter={StaticResource MoneyConverter}}"
-                    FontSize="20"/>
+                        Grid.Row="1"
+                        Text="{x:Bind ViewModel.Incomes, Converter={StaticResource MoneyConverter}}"
+                        FontSize="20"/>
 
                     <Button 
-                    Style="{ThemeResource TextBlockButtonStyle}"
-                    Grid.Row="2"
-                    Content="View details"/>
+                        Style="{ThemeResource TextBlockButtonStyle}"
+                        Grid.Row="2"
+                        Content="View details"/>
                 </StackPanel>
             </Border>
 
             <Border Grid.Row="1" Grid.Column="1">
-                <StackPanel 
-                    Spacing="4">
+                <StackPanel Spacing="4">
 
                     <TextBlock
-                    Grid.Row="0"
-                    Text="Outcomes"/>
+                        Grid.Row="0"
+                        Text="Outcomes"/>
 
                     <TextBlock 
-                    Grid.Row="1"
-                    Text="{x:Bind ViewModel.Outcomes, Converter={StaticResource MoneyConverter}}"
-                    FontSize="20"/>
+                        Grid.Row="1"
+                        Text="{x:Bind ViewModel.Outcomes, Converter={StaticResource MoneyConverter}}"
+                        FontSize="20"/>
 
                     <Button 
-                    Style="{ThemeResource TextBlockButtonStyle}"
-                    Grid.Row="2"
-                    Content="View details"/>
+                        Style="{ThemeResource TextBlockButtonStyle}"
+                        Grid.Row="2"
+                        Content="View details"/>
                 </StackPanel>
             </Border>
 
-            <controls:Expander x:Name="StatsExpander"
-                           Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Grid.ColumnSpan="1"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Stretch"
-            VerticalAlignment="Top">
+            <controls:Expander Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Grid.ColumnSpan="1"
+                x:Name="StatsExpander"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                VerticalAlignment="Top">
 
                 <controls:Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" 
-                               Text="Statistics"/>
+                        <TextBlock
+                            Grid.Column="0" 
+                            Text="Statistics"/>
 
                         <StackPanel 
-                        Grid.Column="1"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Right">
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
 
                             <TextBlock Text="{x:Bind ViewModel.SelectedPeriodRange, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
@@ -161,19 +164,26 @@
                 </controls:Expander.Header>
 
                 <ListView
-                ItemsSource="{x:Bind ViewModel.Stats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectionMode="None">
+                    ItemsSource="{x:Bind ViewModel.Stats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionMode="None">
+                    
                     <ListView.Header>
                         <ListViewHeaderItem>
-                            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0" Padding="0">
+                            <StackPanel 
+                                Orientation="Horizontal" 
+                                Spacing="8" 
+                                Margin="0" 
+                                Padding="0">
+                                
                                 <TextBlock Text="Total spent:"/>
-                                <TextBlock Text="{x:Bind ViewModel.TotalSpent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                <TextBlock Text="{x:Bind ViewModel.TotalSpent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                         </ListViewHeaderItem>
                     </ListView.Header>
 
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="data:CategoryStats">
+                
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -181,20 +191,21 @@
                                 </Grid.ColumnDefinitions>
 
                                 <ProgressBar Grid.Column="0" Grid.ColumnSpan="2"
-                                VerticalAlignment="Stretch"
-                                Maximum="{x:Bind SourceViewModel.TotalSpent.Amount}"
-                                Value="{x:Bind Spent.Amount}"
-                                Height="25"/>
+                                    VerticalAlignment="Stretch"
+                                    Maximum="{x:Bind SourceViewModel.TotalSpent.Amount}"
+                                    Value="{x:Bind Spent.Amount}"
+                                    Height="25"
+                                    Foreground="{x:Bind Color, Converter={StaticResource ColorToBrushConverter}}"/>
 
                                 <TextBlock Grid.Column="0"
-                                Padding="4"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind CategoryInfo.Name}"/>
+                                    Padding="4"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind CategoryInfo.Name}"/>
 
                                 <TextBlock Grid.Column="1"
-                                Padding="4"
-                                VerticalAlignment="Center"
-                                Text="{x:Bind Spent}"/>
+                                    Padding="4"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind Spent}"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

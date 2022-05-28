@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BudgetPlanner.Data
+﻿namespace BudgetPlanner.Data
 {
     public struct Money
     {
