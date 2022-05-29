@@ -10,8 +10,6 @@ namespace BudgetPlanner.Providers
     {
         IEnumerable<CategoryStats> GetCategoryStats(DateTime startDate);
 
-        IEnumerable<Operation> GetOperations(int max);
-
         IEnumerable<Operation> GetOperations();
     }
 }

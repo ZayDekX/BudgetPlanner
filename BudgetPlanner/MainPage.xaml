@@ -5,37 +5,57 @@
     xmlns:local="using:BudgetPlanner"
     xmlns:views="using:BudgetPlanner.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <NavigationView x:Name="Navigation"
+    
+    <controls:NavigationView x:Name="Navigation"
             Header="{Binding Path=SelectedItem.NavigationTitle, RelativeSource={RelativeSource Mode=Self}}"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             Loaded="OnNavigationViewLoaded">
 
-        <NavigationView.HeaderTemplate>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Container.Padding" Value="40 0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
+        <controls:NavigationView.HeaderTemplate>
             <DataTemplate x:DataType="x:String">
                 <TextBlock Text="{Binding}"
                            Style="{ThemeResource TitleTextBlockStyle}"
                            Margin="0 16"/>
             </DataTemplate>
-        </NavigationView.HeaderTemplate>
+        </controls:NavigationView.HeaderTemplate>
         
-        <NavigationView.MenuItemTemplate>
+        <controls:NavigationView.MenuItemTemplate>
             <DataTemplate x:DataType="views:BasePage">
-                <NavigationViewItem Icon="{x:Bind NavigationIcon}" Content="{x:Bind NavigationTitle}"/>
+                <controls:NavigationViewItem Icon="{x:Bind NavigationIcon}" Content="{x:Bind NavigationTitle}"/>
             </DataTemplate>
-        </NavigationView.MenuItemTemplate>
-        
-        <NavigationView.MenuItems>
+        </controls:NavigationView.MenuItemTemplate>
+
+        <controls:NavigationView.MenuItems>
             <views:OverviewView/>
             <views:HistoryView/>
             <views:OperationCreatorView/>
-        </NavigationView.MenuItems>
+        </controls:NavigationView.MenuItems>
 
         <Border Child="{Binding SelectedItem, ElementName=Navigation}"
-                Margin="40 0"
-                HorizontalAlignment="Stretch"/>
-    </NavigationView>
+                Padding="40 0 8 0"
+                x:Name="Container"/>
+    </controls:NavigationView>
 </Page>

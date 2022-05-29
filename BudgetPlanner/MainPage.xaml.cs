@@ -21,7 +21,7 @@ namespace BudgetPlanner
 
         private void OnNavigationViewLoaded(object sender, RoutedEventArgs e)
         {
-            if (sender is not NavigationView navigationView)
+            if (sender is not Microsoft.UI.Xaml.Controls.NavigationView navigationView)
             {
                 return;
             }

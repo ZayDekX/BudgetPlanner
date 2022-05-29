@@ -1,11 +1,13 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
-using BudgetPlanner.Contexts;
 using BudgetPlanner.Data;
 using BudgetPlanner.Providers;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Windows.UI.Xaml.Controls;
 
 namespace BudgetPlanner.ViewModels
 {
@@ -17,10 +19,20 @@ namespace BudgetPlanner.ViewModels
         }
 
         private OperationViewModel _selectedOperation;
-        private ObservableCollection<OperationViewModel> _availableOperations = new();
+        private ObservableCollection<IGrouping<DateTime, OperationViewModel>> _availableOperations = new();
+
         private readonly IDataProvider _dataProvider;
 
-        public ObservableCollection<OperationViewModel> AvailableOperations
+        private string _periodSelectorText = "Period";
+
+        private DateTimeOffset _startDate;
+        private DateTimeOffset _endDate;
+
+        private bool _updatingSelectedDates;
+        private bool _updatedSelectedDates;
+        private bool _allowAllOperations = true;
+
+        public ObservableCollection<IGrouping<DateTime, OperationViewModel>> AvailableOperations
         {
             get => _availableOperations;
             set => SetProperty(ref _availableOperations, value);
@@ -32,15 +44,73 @@ namespace BudgetPlanner.ViewModels
             set => SetProperty(ref _selectedOperation, value);
         }
 
-        internal void Update()
+        public string PeriodSelectorText
         {
-            var operations =
-                _dataProvider
-                    .GetOperations(Settings.MaxOperations)
-                    .OrderByDescending(o => o.DateTime)
-                    .Select(o => new OperationViewModel(o));
+            get => _periodSelectorText;
+            set => SetProperty(ref _periodSelectorText, value);
+        }
 
-            AvailableOperations = new(operations);
+        public void UpdateSelectedPeriod(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        {
+            switch (sender.SelectedDates.Count)
+            {
+                case 0 when _updatingSelectedDates:
+                    sender.SelectedDates.Add(_startDate);
+                    return;
+                case 1 when _updatingSelectedDates:
+                    _updatedSelectedDates = true;
+                    sender.SelectedDates.Add(_endDate);
+                    return;
+                case 2 when _updatedSelectedDates:
+                    _updatingSelectedDates = false;
+                    _startDate = sender.SelectedDates.Min();
+                    _endDate = sender.SelectedDates.Max();
+                    break;
+
+                case 0:
+                    PeriodSelectorText = "Select period";
+                    _allowAllOperations = true;
+                    Update();
+                    return;
+
+                case 1:
+                    _allowAllOperations = false;
+
+                    var dates = new[] { sender.SelectedDates.First(), DateTime.Today };
+
+                    _startDate = dates.Min();
+                    _endDate = dates.Max();
+                    break;
+
+                default:
+                    _startDate = sender.SelectedDates.Min();
+                    _endDate = sender.SelectedDates.Max();
+
+                    _updatingSelectedDates = true;
+                    _updatedSelectedDates = false;
+                    _allowAllOperations = false;
+
+                    sender.SelectedDates.Clear();
+                    return;
+            }
+
+            PeriodSelectorText = $"{_startDate:dd.MM.yyyy}-{_endDate:dd.MM.yyyy}";
+            Update();
+        }
+
+        public void Update()
+        {
+            var operations = _dataProvider.GetOperations().Select(o => new OperationViewModel(o));
+
+            AvailableOperations = new(FilterOperations(operations));
+        }
+
+        private IEnumerable<IGrouping<DateTime, OperationViewModel>> FilterOperations(IEnumerable<OperationViewModel> operations)
+        {
+            return operations
+                .Where(o => _allowAllOperations || o.DateTime >= _startDate && o.DateTime <= _endDate)
+                .OrderByDescending(o => o.DateTime)
+                .GroupBy(o => o.DateTime);
         }
     }
 }

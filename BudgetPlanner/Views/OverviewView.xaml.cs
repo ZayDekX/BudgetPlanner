@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Windows.UI.Core;
+
 using BudgetPlanner.Providers;
 using BudgetPlanner.ViewModels;
 
@@ -17,7 +19,7 @@ namespace BudgetPlanner.Views
 
         private async void Update(object sender, object args)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, ViewModel.Update);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, ViewModel.Update);
         }
     }
 }

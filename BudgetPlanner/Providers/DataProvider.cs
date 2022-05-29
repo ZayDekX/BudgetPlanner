@@ -32,23 +32,7 @@ namespace BudgetPlanner.Providers
         {
             var source = GetDataSource();
 
-            var operations = source.Operations.ToList();
-
-            return operations;
-        }
-
-        public IEnumerable<Operation> GetOperations(int max)
-        {
-            var source = GetDataSource();
-
-            var operations = source.Operations.ToList();
-
-            if (max < 0)
-            {
-                return operations;
-            }
-
-            return operations.Take(Math.Min(operations.Count, max));
+            return source.Operations.AsEnumerable();
         }
 
         private BudgetPlannerContext GetDataSource()

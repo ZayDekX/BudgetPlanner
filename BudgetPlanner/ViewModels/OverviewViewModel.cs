@@ -8,9 +8,6 @@ using BudgetPlanner.Providers;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-using Windows.UI.Core;
-using Windows.UI.Xaml;
-
 namespace BudgetPlanner.ViewModels
 {
     public class OverviewViewModel : ObservableObject
@@ -27,6 +24,8 @@ namespace BudgetPlanner.ViewModels
         private Money _incomes = Money.Zero(Settings.CurrencyMarker);
         private Money _outcomes = Money.Zero(Settings.CurrencyMarker);
         private Money _available = Money.Zero(Settings.CurrencyMarker);
+
+        private string _selectedPeriodRange;
         private ObservableCollection<CategoryStats> _stats = new();
         private readonly IDataProvider _statsProvider;
 
@@ -68,6 +67,12 @@ namespace BudgetPlanner.ViewModels
             set => SetProperty(ref _totalSpent, value);
         }
 
+        public string SelectedPeriodRange
+        {
+            get => _selectedPeriodRange;
+            set => SetProperty(ref _selectedPeriodRange, value);
+        }
+
         public void Update()
         {
             var operations = _statsProvider.GetOperations().ToList();
@@ -78,17 +83,24 @@ namespace BudgetPlanner.ViewModels
             Outcomes = new(operations.Where(o => o.Category.OperationType is OperationType.Outcome && o.DateTime > SelectedPeriodStart).Select(o => o.Amount.Amount).Sum(), Settings.CurrencyMarker);
 
             Stats = new(_statsProvider.GetCategoryStats(SelectedPeriodStart));
+       
+            SelectedPeriodRange = SelectedPeriod switch
+            {
+                OverviewPeriod.Day => "Today",
+                OverviewPeriod.Week => $"{SelectedPeriodStart:dd.MM} - {SelectedPeriodStart.AddDays(7):dd.MM}",
+                OverviewPeriod.Month => $"{SelectedPeriodStart:dd.MM} - {SelectedPeriodStart.AddMonths(1):dd.MM}",
+                _ => $"{SelectedPeriodStart:dd.MM.yyyy} - {SelectedPeriodStart.AddYears(1):dd.MM.yyyy}",
+            };
 
             TotalSpent = new Money(Stats.Sum(x => x.Spent), Settings.CurrencyMarker);
         }
 
         private DateTime SelectedPeriodStart => SelectedPeriod switch
         {
-            OverviewPeriod.Day => DateTime.Today,
             OverviewPeriod.Week => DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + 1),
             OverviewPeriod.Month => DateTime.Today.AddDays(-DateTime.Today.Day + 1),
             OverviewPeriod.Year => DateTime.Today.AddDays(-DateTime.Today.Day + 1).AddMonths(-DateTime.Today.Month + 1),
-            _ => DateTime.MinValue
+            _ => DateTime.Today,
         };
     }
 }
