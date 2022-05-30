@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using BudgetPlanner.Providers;
 using BudgetPlanner.ViewModels;
 
-using Windows.UI.Xaml;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace BudgetPlanner.Views
+namespace BudgetPlanner.Views.Controls
 {
     public sealed partial class HistoryView
     {

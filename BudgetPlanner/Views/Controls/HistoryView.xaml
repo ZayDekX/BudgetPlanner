@@ -1,5 +1,5 @@
-﻿<local:BasePage
-    x:Class="BudgetPlanner.Views.HistoryView"
+﻿<UserControl
+    x:Class="BudgetPlanner.Views.Controls.HistoryView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:BudgetPlanner.Views"
@@ -12,10 +12,9 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
-    NavigationTitle="History"
-    NavigationIconSymbol="Clock"
     x:Name="Root">
-    <local:BasePage.Resources>
+    
+    <UserControl.Resources>
         <CollectionViewSource 
             x:Key="AvailableOperations" 
             IsSourceGrouped="True" 
@@ -23,7 +22,7 @@
         <uwpConverters:FormatStringConverter x:Key="FormatStringConverter"/>
         <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
         <converters:StringToMoneyConverter x:Key="StringToMoneyConverter"/>
-    </local:BasePage.Resources>
+    </UserControl.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -147,4 +146,4 @@
             </ListView.ItemTemplate>
         </ListView>
     </Grid>
-</local:BasePage>
+</UserControl>

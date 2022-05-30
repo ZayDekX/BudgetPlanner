@@ -2,7 +2,7 @@
 
 using BudgetPlanner.ViewModels;
 
-namespace BudgetPlanner.Views
+namespace BudgetPlanner.Views.Controls
 {
     public sealed partial class OperationCreatorView
     {
@@ -13,8 +13,6 @@ namespace BudgetPlanner.Views
             InitializeComponent();
             Loaded += Update;
         }
-
-        public OperationEditorMode EditorMode { get; set; }
 
         private async void Update(object sender, object args)
         {

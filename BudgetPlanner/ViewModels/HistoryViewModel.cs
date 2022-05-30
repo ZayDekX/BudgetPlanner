@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 using BudgetPlanner.Providers;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+
 using Windows.UI.Xaml.Controls;
 
 namespace BudgetPlanner.ViewModels

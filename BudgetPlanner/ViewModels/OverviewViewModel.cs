@@ -83,7 +83,7 @@ namespace BudgetPlanner.ViewModels
             Outcomes = new(operations.Where(o => o.Category.OperationType is OperationType.Outcome && o.DateTime > SelectedPeriodStart).Select(o => o.Amount.Amount).Sum(), Settings.CurrencyMarker);
 
             Stats = new(_statsProvider.GetCategoryStats(SelectedPeriodStart));
-       
+
             SelectedPeriodRange = SelectedPeriod switch
             {
                 OverviewPeriod.Day => "Today",

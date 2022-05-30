@@ -1,11 +1,11 @@
 ﻿using System;
 
-using Windows.UI.Core;
-
 using BudgetPlanner.Providers;
 using BudgetPlanner.ViewModels;
 
-namespace BudgetPlanner.Views
+using Windows.UI.Core;
+
+namespace BudgetPlanner.Views.Controls
 {
     public sealed partial class OverviewView
     {

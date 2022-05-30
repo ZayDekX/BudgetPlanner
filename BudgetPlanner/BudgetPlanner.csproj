@@ -127,8 +127,8 @@
     <Compile Include="Data\Money.cs" />
     <Compile Include="Data\OperationCategory.cs" />
     <Compile Include="Data\Settings.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Operation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,19 +139,31 @@
     <Compile Include="ViewModels\OperationCreatorViewModel.cs" />
     <Compile Include="Data\OperationType.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
-    <Compile Include="Views\BasePage.cs" />
+    <Compile Include="Views\PageNavigator.cs" />
     <Compile Include="Data\CategoryStats.cs" />
-    <Compile Include="Views\HistoryView.xaml.cs">
+    <Compile Include="Views\Controls\HistoryView.xaml.cs">
       <DependentUpon>HistoryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OperationCreatorView.xaml.cs">
+    <Compile Include="Views\Controls\OperationCreatorView.xaml.cs">
       <DependentUpon>OperationCreatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\OverviewPeriod.cs" />
-    <Compile Include="Views\OverviewView.xaml.cs">
+    <Compile Include="Views\Controls\OverviewView.xaml.cs">
       <DependentUpon>OverviewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\OverviewViewModel.cs" />
+    <Compile Include="Views\Pages\CreateOperationPage.xaml.cs">
+      <DependentUpon>CreateOperationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\EditOperationPage.xaml.cs">
+      <DependentUpon>EditOperationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\HistoryPage.xaml.cs">
+      <DependentUpon>HistoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\OverviewPage.xaml.cs">
+      <DependentUpon>OverviewPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -173,19 +185,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\HistoryView.xaml">
+    <Page Include="Views\Controls\HistoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OperationCreatorView.xaml">
+    <Page Include="Views\Controls\OperationCreatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OverviewView.xaml">
+    <Page Include="Views\Controls\OverviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\CreateOperationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\EditOperationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\OverviewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
