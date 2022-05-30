@@ -53,7 +53,7 @@
             <views:HistoryView/>
             <views:OperationCreatorView/>
         </controls:NavigationView.MenuItems>
-
+        
         <Border Child="{Binding SelectedItem, ElementName=Navigation}"
                 Padding="40 0 8 0"
                 x:Name="Container"/>

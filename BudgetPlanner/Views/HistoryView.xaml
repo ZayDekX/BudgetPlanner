@@ -8,6 +8,7 @@
     xmlns:viewmodels="using:BudgetPlanner.ViewModels" 
     xmlns:uwpConverters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters="using:BudgetPlanner.Converters"
+    xmlns:core="using:Windows.UI.Core"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -65,7 +66,7 @@
                 Grid.Column="2" 
                 Orientation="Horizontal"
                 Spacing="8">
-                
+
                 <Button 
                     Padding="5" 
                     BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
@@ -78,7 +79,8 @@
                 <Button
                     Padding="5" 
                     BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
-                    Background="Transparent">
+                    Background="Transparent"
+                    Click="OnDeleteButtonClick">
                     <SymbolIcon>Delete</SymbolIcon>
                 </Button>
                 

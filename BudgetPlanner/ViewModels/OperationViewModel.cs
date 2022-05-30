@@ -30,5 +30,10 @@ namespace BudgetPlanner.ViewModels
         public Color AmountForeground => _model.Category.OperationType is OperationType.Income ? _greenColor : _redColor;
 
         public string AmountSign => _model.Category.OperationType is OperationType.Income ? "+" : "-";
+
+        public static explicit operator Operation(OperationViewModel viewModel)
+        {
+            return viewModel._model;
+        }
     }
 }

@@ -3,7 +3,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-using BudgetPlanner.Data;
 using BudgetPlanner.Providers;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -111,6 +110,14 @@ namespace BudgetPlanner.ViewModels
                 .Where(o => _allowAllOperations || o.DateTime >= _startDate && o.DateTime <= _endDate)
                 .OrderByDescending(o => o.DateTime)
                 .GroupBy(o => o.DateTime);
+        }
+
+        public void DeleteSelectedOperation()
+        {
+            _dataProvider.DeleteOperation(SelectedOperation);
+            SelectedOperation = null;
+
+            Update();
         }
     }
 }

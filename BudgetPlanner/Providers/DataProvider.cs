@@ -5,6 +5,7 @@ using System.Linq;
 using BudgetPlanner.Contexts;
 using BudgetPlanner.Data;
 using BudgetPlanner.Models;
+using BudgetPlanner.ViewModels;
 
 namespace BudgetPlanner.Providers
 {
@@ -33,6 +34,14 @@ namespace BudgetPlanner.Providers
             var source = GetDataSource();
 
             return source.Operations.AsEnumerable();
+        }
+
+        public void DeleteOperation(OperationViewModel selectedOperation)
+        {
+            var source = GetDataSource();
+
+            source.Operations.Remove((Operation)selectedOperation);
+            source.SaveChanges();
         }
 
         private BudgetPlannerContext GetDataSource()
