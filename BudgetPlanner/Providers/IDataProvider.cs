@@ -14,5 +14,11 @@ namespace BudgetPlanner.Providers
         IEnumerable<Operation> GetOperations();
 
         void DeleteOperation(OperationViewModel selectedOperation);
+
+        void Add(Operation operation);
+
+        void Update(Operation operation);
+
+        IEnumerable<OperationCategory> GetCategories();
     }
 }

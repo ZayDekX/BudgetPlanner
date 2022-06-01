@@ -12,18 +12,41 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace BudgetPlanner.ViewModels
 {
-    internal class OperationCreatorViewModel : ObservableObject
+    public class OperationEditorViewModel : ObservableObject
     {
-        public OperationCreatorViewModel(IDataProvider dataProvider)
+        public OperationEditorViewModel(IDataProvider dataProvider, Operation seed)
         {
-            ValidateAndCreateOperationCommand = new DispatcherCommand(CreateOperation);
-            UpdateCommand = new DispatcherCommand(Update);
-
-            Date = DateTime.Today;
-            Time = DateTime.Now - DateTime.Today;
             _dataProvider = dataProvider;
+
+            _operationId = seed.OperationId;
+            Amount = seed.Amount;
+            Comment = seed.Comment;
+            Category = seed.Category;
+            Date = seed.DateTime.Date;
+            Time = seed.DateTime.TimeOfDay;
+
+            ValidateAndUpdateOperationCommand = new DispatcherCommand(ValidateAndUpdateOperation);
+            UpdateCommand = new DispatcherCommand(Update);
         }
-        
+
+        private void Update()
+        {
+            AvailableOperationCategories = new(_dataProvider.GetCategories());
+            Category = AvailableOperationCategories.First(c => c.OperationCategoryId == Category.OperationCategoryId);
+        }
+
+        private void ValidateAndUpdateOperation()
+        {
+            if (!IsValid)
+            {
+                return;
+            }
+
+            UpdateOperation();
+        }
+
+        private readonly int _operationId;
+
         private Money _amount;
         private string _comment;
         private OperationCategory _category;
@@ -32,15 +55,13 @@ namespace BudgetPlanner.ViewModels
         private ObservableCollection<OperationCategory> _availableOperationCategories = new();
         private readonly IDataProvider _dataProvider;
 
+        public ICommand UpdateCommand { get; }
+
         public ObservableCollection<OperationCategory> AvailableOperationCategories
         {
             get => _availableOperationCategories;
             set => SetProperty(ref _availableOperationCategories, value);
         }
-
-        public ICommand ValidateAndCreateOperationCommand { get; }
-
-        public ICommand UpdateCommand { get; }
 
         public Money Amount
         {
@@ -72,22 +93,18 @@ namespace BudgetPlanner.ViewModels
             set => SetProperty(ref _time, value);
         }
 
+        public ICommand ValidateAndUpdateOperationCommand { get; }
+
         public bool IsValid => Amount > 0 && _category is not null;
 
-        private void Update()
-        {
-            AvailableOperationCategories = new(_dataProvider.GetCategories());
-            Category = AvailableOperationCategories.FirstOrDefault(c => c.OperationCategoryId == (Category?.OperationCategoryId ?? 0));
-        }
-
-        private void CreateOperation()
+        private void UpdateOperation()
         {
             if (!IsValid)
             {
                 return;
             }
 
-            _dataProvider.Add(new Operation(_amount, _category, _comment, _date.DateTime + _time));
+            _dataProvider.Update(new Operation(_amount, _category, _comment, _date.DateTime + _time) { OperationId = _operationId });
         }
     }
 }

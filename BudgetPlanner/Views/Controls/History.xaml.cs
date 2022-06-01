@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using BudgetPlanner.Providers;
 using BudgetPlanner.ViewModels;
+using BudgetPlanner.Views.Pages;
 
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -10,11 +11,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace BudgetPlanner.Views.Controls
 {
-    public sealed partial class HistoryView
+    public sealed partial class History
     {
         public HistoryViewModel ViewModel { get; } = new(DataProvider.Instance);
 
-        public HistoryView()
+        public History()
         {
             InitializeComponent();
             Loaded += Update;
@@ -51,6 +52,11 @@ namespace BudgetPlanner.Views.Controls
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, ViewModel.DeleteSelectedOperation);
             }
+        }
+
+        private void OnEditButtonClick(object sender, RoutedEventArgs e)
+        {
+            App.CurrentShell.Navigate<EditOperationPage>(ViewModel.SelectedOperation);
         }
     }
 }

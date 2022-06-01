@@ -48,5 +48,32 @@ namespace BudgetPlanner.Providers
         {
             return new BudgetPlannerContext();
         }
+
+        public async void Add(Operation operation)
+        {
+            var context = GetDataSource();
+
+            await context.Operations.AddAsync(operation).ConfigureAwait(false);
+
+            context.Attach(operation.Category);
+
+            await context.SaveChangesAsync().ConfigureAwait(false);
+        }
+        
+        public async void Update(Operation operation)
+        {
+            var source = GetDataSource();
+
+            source.Operations.Update(operation);
+
+            await source.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        public IEnumerable<OperationCategory> GetCategories()
+        {
+            var source = GetDataSource();
+
+            return source.Categories;
+        }
     }
 }

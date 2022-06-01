@@ -1,9 +1,6 @@
-﻿using System;
-
-using Windows.ApplicationModel;
+﻿using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
 
 namespace BudgetPlanner
 {
@@ -21,6 +18,8 @@ namespace BudgetPlanner
             InitializeComponent();
             Suspending += OnSuspending;
         }
+
+        public static Shell CurrentShell => Window.Current.Content as Shell;
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

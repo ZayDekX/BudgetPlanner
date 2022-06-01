@@ -4,6 +4,8 @@ using BudgetPlanner.Views;
 using Windows.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
+using BudgetPlanner.Views.Pages;
+
 namespace BudgetPlanner
 {
     public sealed partial class Shell
@@ -13,6 +15,26 @@ namespace BudgetPlanner
         public Shell()
         {
             InitializeComponent();
+        }
+
+        private bool _isExternalNavigation;
+
+        public void Navigate<TPage>(object args = default)
+            where TPage : NavigateablePage
+        {
+            _isExternalNavigation = true;
+            RootContainer.Navigate(typeof(TPage), args);
+
+            Navigation.SelectedItem = ((TPage)RootContainer.Content).Navigator;
+            _isExternalNavigation = false;
+        }
+
+        public void GoBack()
+        {
+            if (RootContainer.CanGoBack)
+            {
+                RootContainer.GoBack();
+            }
         }
 
         private void OnNavigationViewLoaded(object sender, RoutedEventArgs e)
@@ -32,7 +54,10 @@ namespace BudgetPlanner
                 return;
             }
 
-            RootContainer.Navigate(navigator.PageType);
+            if (!_isExternalNavigation)
+            {
+                RootContainer.Navigate(navigator.PageType);
+            }
         }
     }
 }

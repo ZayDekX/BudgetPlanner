@@ -7,15 +7,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     xmlns:pages="using:BudgetPlanner.Views.Pages"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
     
     <controls:NavigationView x:Name="Navigation"
-            Header="{Binding Path=SelectedItem.Content, ElementName=Navigation}"
-            IsBackButtonVisible="Collapsed"
-            IsSettingsVisible="False"
-            Loaded="OnNavigationViewLoaded"
-            SelectionChanged="NavigateToSelectedPage">
+        Header="{Binding Path=SelectedItem.Content, ElementName=Navigation}"
+        IsBackButtonVisible="Collapsed"
+        IsSettingsVisible="False"
+        Loaded="OnNavigationViewLoaded"
+        SelectionChanged="NavigateToSelectedPage"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

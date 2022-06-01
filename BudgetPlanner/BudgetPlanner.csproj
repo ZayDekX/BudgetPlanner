@@ -120,6 +120,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Commands\DispatcherCommand.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Contexts\BudgetPlannerContext.cs" />
     <Compile Include="Converters\StringToFloatConverter.cs" />
@@ -138,18 +139,22 @@
     <Compile Include="ViewModels\HistoryViewModel.cs" />
     <Compile Include="ViewModels\OperationCreatorViewModel.cs" />
     <Compile Include="Data\OperationType.cs" />
+    <Compile Include="ViewModels\OperationEditorViewModel.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
+    <Compile Include="Views\Controls\OperationEditor.xaml.cs">
+      <DependentUpon>OperationEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PageNavigator.cs" />
     <Compile Include="Data\CategoryStats.cs" />
-    <Compile Include="Views\Controls\HistoryView.xaml.cs">
-      <DependentUpon>HistoryView.xaml</DependentUpon>
+    <Compile Include="Views\Controls\History.xaml.cs">
+      <DependentUpon>History.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\OperationCreatorView.xaml.cs">
-      <DependentUpon>OperationCreatorView.xaml</DependentUpon>
+    <Compile Include="Views\Controls\OperationCreator.xaml.cs">
+      <DependentUpon>OperationCreator.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\OverviewPeriod.cs" />
-    <Compile Include="Views\Controls\OverviewView.xaml.cs">
-      <DependentUpon>OverviewView.xaml</DependentUpon>
+    <Compile Include="Views\Controls\Overview.xaml.cs">
+      <DependentUpon>Overview.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\OverviewViewModel.cs" />
     <Compile Include="Views\Pages\CreateOperationPage.xaml.cs">
@@ -161,6 +166,7 @@
     <Compile Include="Views\Pages\HistoryPage.xaml.cs">
       <DependentUpon>HistoryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\NavigateablePage.cs" />
     <Compile Include="Views\Pages\OverviewPage.xaml.cs">
       <DependentUpon>OverviewPage.xaml</DependentUpon>
     </Compile>
@@ -189,15 +195,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Controls\HistoryView.xaml">
+    <Page Include="Views\Controls\History.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Controls\OperationCreator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\OperationCreatorView.xaml">
+    <Page Include="Views\Controls\OperationEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Controls\OverviewView.xaml">
+    <Page Include="Views\Controls\Overview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -8,5 +8,5 @@
     xmlns:controls="using:BudgetPlanner.Views.Controls"
     mc:Ignorable="d">
 
-    <controls:OverviewView/>
+    <controls:Overview/>
 </Page>

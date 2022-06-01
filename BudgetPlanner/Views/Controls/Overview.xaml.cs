@@ -7,11 +7,11 @@ using Windows.UI.Core;
 
 namespace BudgetPlanner.Views.Controls
 {
-    public sealed partial class OverviewView
+    public sealed partial class Overview
     {
         public OverviewViewModel ViewModel { get; } = new(DataProvider.Instance);
 
-        public OverviewView()
+        public Overview()
         {
             InitializeComponent();
             Loaded += Update;
@@ -23,3 +23,4 @@ namespace BudgetPlanner.Views.Controls
         }
     }
 }
+    

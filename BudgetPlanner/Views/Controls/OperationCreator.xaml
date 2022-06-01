@@ -6,8 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:converters="using:BudgetPlanner.Converters" 
-    xmlns:controls="using:Microsoft.UI.Xaml.Controls" 
-    xmlns:viewmodels="using:BudgetPlanner.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="400">
@@ -37,7 +35,7 @@
                 Header="Amount" 
                 PlaceholderText="Enter amount"
                 Text="{x:Bind ViewModel.Amount, Converter={StaticResource MoneyConverter}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
-                BeforeTextChanging="{x:Bind ViewModel.ValidateAmount, FallbackValue=0}"/>
+                BeforeTextChanging="{x:Bind ValidateAmount, FallbackValue=0}"/>
         </ListViewItem>
 
         <ListViewItem>
@@ -45,7 +43,7 @@
                 Header="Category" 
                 PlaceholderText="Select category"
                 SelectedItem="{x:Bind ViewModel.Category, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                ItemsSource="{x:Bind ViewModel.AvailableOperationCategories}"/>
+                ItemsSource="{x:Bind ViewModel.AvailableOperationCategories, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         </ListViewItem>
 
         <ListViewItem>
@@ -64,8 +62,14 @@
         </ListViewItem>
 
         <ListViewItem>
-            <Button Content="Add operation" 
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button 
+                    Content="Add operation" 
                     Command="{x:Bind ViewModel.ValidateAndCreateOperationCommand}"/>
+                <Button 
+                    Content="Cancel" 
+                    Click="OnCancelClick"/>
+            </StackPanel>
         </ListViewItem>
     </ListView>
 </UserControl>

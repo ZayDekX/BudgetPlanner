@@ -1,0 +1,76 @@
+﻿<UserControl
+    x:Class="BudgetPlanner.Views.Controls.OperationEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BudgetPlanner.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:converters="using:BudgetPlanner.Converters" 
+    xmlns:uwpConverters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="600"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="MaxWidth" Value="400"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="MinWidth" Value="200"/>
+            <Setter Property="MaxWidth" Value="400"/>
+        </Style>
+        <converters:StringToMoneyConverter x:Key="MoneyConverter"/>
+    </UserControl.Resources>
+
+    <ListView SelectionMode="None">
+
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="Margin" Value="0,8"></Setter>
+            </Style>
+        </ListView.ItemContainerStyle>
+
+        <ListViewItem>
+            <TextBox
+                Header="Amount" 
+                PlaceholderText="Enter amount"
+                Text="{x:Bind ViewModel.Amount, Converter={StaticResource MoneyConverter}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"
+                BeforeTextChanging="{x:Bind ValidateAmount, FallbackValue=0}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <ComboBox 
+                Header="Category" 
+                PlaceholderText="Select category"
+                SelectedItem="{x:Bind ViewModel.Category, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                ItemsSource="{x:Bind ViewModel.AvailableOperationCategories, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <TextBox 
+                Header="Comment" 
+                PlaceholderText="Enter comment"
+                Text="{x:Bind ViewModel.Comment, UpdateSourceTrigger=LostFocus, Mode=TwoWay}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <DatePicker Header="Date" SelectedDate="{x:Bind ViewModel.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <TimePicker Header="Time" SelectedTime="{x:Bind ViewModel.Time, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </ListViewItem>
+
+        <ListViewItem>
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button 
+                    Content="Update operation"
+                    Command="{x:Bind ViewModel.ValidateAndUpdateOperationCommand}"/>
+                <Button 
+                    Content="Cancel" 
+                    Click="OnCancelClick"/>
+            </StackPanel>
+        </ListViewItem>
+    </ListView>
+</UserControl>
