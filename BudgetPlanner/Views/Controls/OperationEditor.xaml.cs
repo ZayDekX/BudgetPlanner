@@ -36,4 +36,13 @@ public sealed partial class OperationEditor
     {
         App.CurrentShell.GoBack();
     }
+
+    private void OnUpdateOperationClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+    {
+        ViewModel.ValidateAndUpdateOperationCommand.Execute(null);
+        if (ViewModel.IsValid)
+        {
+            App.CurrentShell.GoBack();
+        }
+    }
 }

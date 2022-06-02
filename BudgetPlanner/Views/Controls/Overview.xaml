@@ -113,7 +113,8 @@
                     <Button 
                         Style="{ThemeResource TextBlockButtonStyle}"
                         Grid.Row="2"
-                        Content="View details"/>
+                        Content="View details"
+                        Click="OpenHistoryClick"/>
                 </StackPanel>
             </Border>
 
@@ -132,7 +133,8 @@
                     <Button 
                         Style="{ThemeResource TextBlockButtonStyle}"
                         Grid.Row="2"
-                        Content="View details"/>
+                        Content="View details"
+                        Click="OpenHistoryClick"/>
                 </StackPanel>
             </Border>
 

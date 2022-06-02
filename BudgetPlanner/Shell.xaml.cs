@@ -32,6 +32,11 @@ public sealed partial class Shell
         if (RootContainer.CanGoBack)
         {
             RootContainer.GoBack();
+
+            if (RootContainer.Content is NavigateablePage navPage)
+            {
+                Navigation.SelectedItem = navPage.Navigator;
+            }
         }
     }
 

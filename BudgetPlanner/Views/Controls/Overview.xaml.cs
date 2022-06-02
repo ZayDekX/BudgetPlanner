@@ -1,4 +1,5 @@
 ﻿using BudgetPlanner.ViewModels;
+using BudgetPlanner.Views.Pages;
 
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
@@ -17,5 +18,10 @@ public sealed partial class Overview
     private void Update(object sender, object args)
     {
         ViewModel.UpdateCommand.Execute(null);
+    }
+
+    private void OpenHistoryClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+    {
+        App.CurrentShell.Navigate<HistoryPage>();
     }
 }
