@@ -8,7 +8,7 @@
     xmlns:viewmodels="using:BudgetPlanner.ViewModels" 
     xmlns:uwpConverters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters="using:BudgetPlanner.Converters"
-    xmlns:core="using:Windows.UI.Core" xmlns:controls="using:BudgetPlanner.Views.Controls"
+    xmlns:controls="using:BudgetPlanner.Views.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -54,8 +54,8 @@
                         </Flyout.FlyoutPresenterStyle>
                         <controls:CalendarRangePicker
                             CornerRadius="8"
-                            DateRangeChanged="OnCalendarViewSelectedDatesChanged"
-                            DateRangeDeselected="OnCalendarViewDatesDeselected">
+                            DateRangeChanged="OnSelectedDatesChanged"
+                            DateRangeDeselected="OnDatesDeselected">
                         </controls:CalendarRangePicker>
                     </Flyout>
                 </DropDownButton.Flyout>

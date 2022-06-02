@@ -7,13 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.25" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.25" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BudgetPlanner.Data\BudgetPlanner.Data.csproj" />
     <ProjectReference Include="..\BudgetPlanner.Models\BudgetPlanner.Models.csproj" />
-    <ProjectReference Include="..\BudgetPlanner.ViewModels\BudgetPlanner.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

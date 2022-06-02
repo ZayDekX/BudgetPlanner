@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:converters="using:BudgetPlanner.Converters" 
-    xmlns:uwpConverters="using:Microsoft.Toolkit.Uwp.UI.Converters" xmlns:viewmodels="using:BudgetPlanner.ViewModels"
+    xmlns:viewmodels="using:BudgetPlanner.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="600"
     d:DesignWidth="400">
