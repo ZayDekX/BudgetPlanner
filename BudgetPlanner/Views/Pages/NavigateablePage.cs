@@ -1,9 +1,8 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace BudgetPlanner.Views.Pages
+namespace BudgetPlanner.Views.Pages;
+
+public abstract class NavigateablePage : Page
 {
-    public abstract class NavigateablePage : Page
-    {
-        public PageNavigator Navigator { get; protected set; }
-    }
+    public PageNavigator Navigator { get; protected set; }
 }

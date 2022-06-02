@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:controls="using:Microsoft.UI.Xaml.Controls" 
     xmlns:data="using:BudgetPlanner.Data" 
-    xmlns:converters="using:BudgetPlanner.Converters"
+    xmlns:converters="using:BudgetPlanner.Converters" xmlns:models="using:BudgetPlanner.Models"
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="600"
@@ -106,7 +106,7 @@
 
                     <TextBlock 
                         Grid.Row="1"
-                        Text="{x:Bind ViewModel.Incomes, Converter={StaticResource MoneyConverter}}"
+                        Text="{x:Bind ViewModel.Incomes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MoneyConverter}}"
                         FontSize="20"/>
 
                     <Button 
@@ -181,7 +181,7 @@
                     </ListView.Header>
 
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="data:CategoryStats">
+                        <DataTemplate x:DataType="models:CategoryStats">
                 
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>

@@ -1,10 +1,9 @@
-﻿namespace BudgetPlanner.Views.Pages
+﻿namespace BudgetPlanner.Views.Pages;
+
+public sealed partial class CreateOperationPage
 {
-    public sealed partial class CreateOperationPage
+    public CreateOperationPage()
     {
-        public CreateOperationPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

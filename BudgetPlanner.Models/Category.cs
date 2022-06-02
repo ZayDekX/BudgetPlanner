@@ -1,22 +1,24 @@
-﻿using Windows.UI;
+﻿using System.Drawing;
 
-namespace BudgetPlanner.Data;
+using BudgetPlanner.Data;
 
-public sealed class OperationCategory
+namespace BudgetPlanner.Models;
+
+public sealed class Category
 {
-    public OperationCategory()
+    public Category()
     {
 
     }
 
-    public OperationCategory(string name, OperationType operationType, Color color)
+    public Category(string name, OperationType operationType, Color color)
     {
         Name = name;
         OperationType = operationType;
         Color = color;
     }
 
-    public int OperationCategoryId { get; set; }
+    public int CategoryId { get; set; }
 
     public string Name { get; set; }
 

@@ -4,7 +4,7 @@ using Windows.Storage;
 
 namespace BudgetPlanner.Data;
 
-internal static class Settings
+public static class Settings
 {
     public static string AppDataFile { get; } = "data.db";
 

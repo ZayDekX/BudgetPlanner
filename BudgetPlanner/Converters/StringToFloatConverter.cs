@@ -2,28 +2,27 @@
 
 using Windows.UI.Xaml.Data;
 
-namespace BudgetPlanner.Converters
+namespace BudgetPlanner.Converters;
+
+public class StringToFloatConverter : IValueConverter
 {
-    public class StringToFloatConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, string language)
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        return value.ToString();
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        if (value is not string str)
         {
-            return value.ToString();
+            return default;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        if (string.IsNullOrEmpty(str))
         {
-            if (value is not string str)
-            {
-                return default;
-            }
-
-            if (string.IsNullOrEmpty(str))
-            {
-                return 0f;
-            }
-
-            return float.Parse(str);
+            return 0f;
         }
+
+        return float.Parse(str);
     }
 }

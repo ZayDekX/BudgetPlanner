@@ -3,31 +3,40 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-using BudgetPlanner.Providers;
-using BudgetPlanner.ViewModels.Data;
+using BudgetPlanner.DataAccess.Providers;
+using BudgetPlanner.Data;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using BudgetPlanner.Models;
+using BudgetPlanner.Utils.Commands;
+using System.Windows.Input;
 
-namespace BudgetPlanner.ViewModels;
+namespace BudgetPlanner.ViewModels.Implementation;
 
-public class OverviewViewModel : ObservableObject
+public class OverviewViewModel : ObservableObject, IOverviewViewModel
 {
-    public OverviewViewModel(IDataProvider statsProvider)
+    public OverviewViewModel(IStatsProvider statsProvider)
     {
+        UpdateCommand = new DispatcherCommand(Update);
+
         _statsProvider = statsProvider;
+
         SelectedPeriod = OverviewPeriod.Day;
     }
 
     private OverviewPeriod _selectedPeriod;
 
-    private Money _totalSpent = Money.Zero(Settings.CurrencyMarker);
-    private Money _incomes = Money.Zero(Settings.CurrencyMarker);
-    private Money _outcomes = Money.Zero(Settings.CurrencyMarker);
-    private Money _available = Money.Zero(Settings.CurrencyMarker);
+    private Money _totalSpent = Money.Zero;
+    private Money _incomes = Money.Zero;
+    private Money _outcomes = Money.Zero;
+    private Money _available = Money.Zero;
 
     private string _selectedPeriodRange;
     private ObservableCollection<CategoryStats> _stats = new();
-    private readonly IDataProvider _statsProvider;
+
+    public ICommand UpdateCommand { get; }
+
+    private readonly IStatsProvider _statsProvider;
 
     public IEnumerable<OverviewPeriod> AvailablePeriods { get; } = (OverviewPeriod[])Enum.GetValues(typeof(OverviewPeriod));
 
@@ -73,14 +82,14 @@ public class OverviewViewModel : ObservableObject
         set => SetProperty(ref _selectedPeriodRange, value);
     }
 
-    public void Update()
+    private void Update()
     {
-        var operations = _statsProvider.GetOperations().ToList();
+        var operations =
 
-        Available = new Money(operations.Select(o => o.Amount.Amount * (o.Category.OperationType is OperationType.Outcome ? -1 : 1)).Sum(), Settings.CurrencyMarker);
+        Available = _statsProvider.GetAvailable();
 
-        Incomes = new(operations.Where(o => o.Category.OperationType is OperationType.Income && o.DateTime > SelectedPeriodStart).Select(o => o.Amount.Amount).Sum(), Settings.CurrencyMarker);
-        Outcomes = new(operations.Where(o => o.Category.OperationType is OperationType.Outcome && o.DateTime > SelectedPeriodStart).Select(o => o.Amount.Amount).Sum(), Settings.CurrencyMarker);
+        Incomes = _statsProvider.GetIncomes(SelectedPeriodStart);
+        Outcomes = _statsProvider.GetOutcomes(SelectedPeriodStart);
 
         Stats = new(_statsProvider.GetCategoryStats(SelectedPeriodStart));
 
@@ -92,7 +101,7 @@ public class OverviewViewModel : ObservableObject
             _ => $"{SelectedPeriodStart:dd.MM.yyyy} - {SelectedPeriodStart.AddYears(1):dd.MM.yyyy}",
         };
 
-        TotalSpent = new Money(Stats.Sum(x => x.Spent), Settings.CurrencyMarker);
+        TotalSpent = new Money(Stats.Sum(x => x.Spent));
     }
 
     private DateTime SelectedPeriodStart => SelectedPeriod switch

@@ -9,4 +9,9 @@
     <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BudgetPlanner.Data\BudgetPlanner.Data.csproj" />
+    <ProjectReference Include="..\BudgetPlanner.Models\BudgetPlanner.Models.csproj" />
+  </ItemGroup>
+
 </Project>

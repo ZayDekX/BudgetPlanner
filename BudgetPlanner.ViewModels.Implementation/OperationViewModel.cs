@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Drawing;
 
 using BudgetPlanner.Data;
 using BudgetPlanner.Models;
 
-using Windows.UI;
+namespace BudgetPlanner.ViewModels.Implementation;
 
-namespace BudgetPlanner.ViewModels;
-
-public class OperationViewModel
+public class OperationViewModel : IOperationViewModel
 {
     private readonly Operation _model;
 
@@ -17,13 +16,14 @@ public class OperationViewModel
     public OperationViewModel(Operation model)
     {
         _model = model;
+        Category = new CategoryViewModel(_model.Category);
     }
 
     public Money Amount => _model.Amount;
 
     public string Comment => _model.Comment;
 
-    public string CategoryName => _model.Category.Name;
+    public ICategoryViewModel Category { get; }
 
     public DateTime DateTime => _model.DateTime;
 
@@ -31,8 +31,10 @@ public class OperationViewModel
 
     public string AmountSign => _model.Category.OperationType is OperationType.Income ? "+" : "-";
 
-    public static explicit operator Operation(OperationViewModel viewModel)
+    public int Id => _model.OperationId;
+
+    public Operation AsModel()
     {
-        return viewModel._model;
+        return _model;
     }
 }

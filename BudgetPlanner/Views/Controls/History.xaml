@@ -38,7 +38,7 @@
             </Grid.ColumnDefinitions>
             
             <DropDownButton Grid.Column="0"
-                Content="{x:Bind ViewModel.PeriodSelectorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Content="{x:Bind PeriodSelectorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                 Background="Transparent"
                 CornerRadius="4">
@@ -107,7 +107,7 @@
             </ListView.GroupStyle>
 
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="viewmodels:OperationViewModel">
+                <DataTemplate x:DataType="viewmodels:IOperationViewModel">
                     <Grid Padding="8" RowSpacing="2" CornerRadius="4">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -120,7 +120,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Row="0" Grid.Column="0"
-                            Text="{x:Bind CategoryName}" 
+                            Text="{x:Bind Category.Name}" 
                                    Foreground="#888888" 
                                    FontSize="12"/>
 

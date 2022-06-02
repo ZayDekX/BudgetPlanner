@@ -10,7 +10,7 @@
     <RootNamespace>BudgetPlanner</RootNamespace>
     <AssemblyName>BudgetPlanner</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>latest</LangVersion>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -116,62 +116,44 @@
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Commands\DispatcherCommand.cs" />
-    <Compile Include="Converters\ColorToBrushConverter.cs" />
-    <Compile Include="Contexts\BudgetPlannerContext.cs" />
-    <Compile Include="Converters\StringToFloatConverter.cs" />
-    <Compile Include="Converters\StringToMoneyConverter.cs" />
-    <Compile Include="Data\Money.cs" />
-    <Compile Include="Data\OperationCategory.cs" />
-    <Compile Include="Data\Settings.cs" />
-    <Compile Include="Shell.xaml.cs">
-      <DependentUpon>Shell.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Operation.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\IDataProvider.cs" />
-    <Compile Include="Providers\DataProvider.cs" />
-    <Compile Include="ViewModels\BudgetPlannerViewModel.cs" />
-    <Compile Include="ViewModels\HistoryViewModel.cs" />
-    <Compile Include="ViewModels\OperationCreatorViewModel.cs" />
-    <Compile Include="Data\OperationType.cs" />
-    <Compile Include="ViewModels\OperationEditorViewModel.cs" />
-    <Compile Include="ViewModels\OperationViewModel.cs" />
-    <Compile Include="Views\Controls\OperationEditor.xaml.cs">
-      <DependentUpon>OperationEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PageNavigator.cs" />
-    <Compile Include="Data\CategoryStats.cs" />
-    <Compile Include="Views\Controls\History.xaml.cs">
-      <DependentUpon>History.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Controls\OperationCreator.xaml.cs">
-      <DependentUpon>OperationCreator.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Data\OverviewPeriod.cs" />
-    <Compile Include="Views\Controls\Overview.xaml.cs">
-      <DependentUpon>Overview.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\OverviewViewModel.cs" />
-    <Compile Include="Views\Pages\CreateOperationPage.xaml.cs">
-      <DependentUpon>CreateOperationPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Pages\EditOperationPage.xaml.cs">
-      <DependentUpon>EditOperationPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Pages\HistoryPage.xaml.cs">
-      <DependentUpon>HistoryPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Pages\NavigateablePage.cs" />
-    <Compile Include="Views\Pages\OverviewPage.xaml.cs">
-      <DependentUpon>OverviewPage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <ItemGroup>
+        <Compile Include="App.xaml.cs">
+            <DependentUpon>App.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Converters\ColorToBrushConverter.cs" />
+        <Compile Include="Converters\StringToFloatConverter.cs" />
+        <Compile Include="Converters\StringToMoneyConverter.cs" />
+        <Compile Include="Shell.xaml.cs">
+            <DependentUpon>Shell.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\PageNavigator.cs" />
+        <Compile Include="Views\Controls\History.xaml.cs">
+            <DependentUpon>History.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Controls\OperationCreator.xaml.cs">
+            <DependentUpon>OperationCreator.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Controls\OperationEditor.xaml.cs">
+            <DependentUpon>OperationEditor.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Controls\Overview.xaml.cs">
+            <DependentUpon>Overview.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Pages\CreateOperationPage.xaml.cs">
+            <DependentUpon>CreateOperationPage.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Pages\EditOperationPage.xaml.cs">
+            <DependentUpon>EditOperationPage.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Pages\HistoryPage.xaml.cs">
+            <DependentUpon>HistoryPage.xaml</DependentUpon>
+        </Compile>
+        <Compile Include="Views\Pages\NavigateablePage.cs" />
+        <Compile Include="Views\Pages\OverviewPage.xaml.cs">
+            <DependentUpon>OverviewPage.xaml</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
@@ -187,10 +169,10 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
+      <ApplicationDefinition Include="App.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+      </ApplicationDefinition>
     <Page Include="Shell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -228,33 +210,54 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite">
-      <Version>6.0.5</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>3.1.25</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
-      <Version>3.1.25</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.13</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Mvvm">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.7.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup />
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Data.Sqlite">
+            <Version>6.0.5</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore">
+            <Version>3.1.25</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
+            <Version>3.1.25</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+            <Version>6.2.13</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Toolkit.Mvvm">
+            <Version>7.1.2</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Toolkit.Uwp">
+            <Version>7.1.2</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+            <Version>7.1.2</Version>
+        </PackageReference>
+        <PackageReference Include="Microsoft.UI.Xaml">
+            <Version>2.7.1</Version>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\BudgetPlanner.Data\BudgetPlanner.Data.csproj">
+            <Project>{78AB462D-C210-4878-91BD-EA4F420E69C9}</Project>
+            <Name>BudgetPlanner.Data</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\BudgetPlanner.Models\BudgetPlanner.Models.csproj">
+            <Project>{a4384ce6-766b-44b7-9ba9-c1c660f821ec}</Project>
+            <Name>BudgetPlanner.Models</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\BudgetPlanner.Services\BudgetPlanner.Services.csproj">
+            <Project>{b7cb65f5-36c1-43e7-8a89-758729b3988d}</Project>
+            <Name>BudgetPlanner.Services</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\BudgetPlanner.ViewModels\BudgetPlanner.ViewModels.csproj">
+            <Project>{50ff67fb-bed4-46cf-8a1f-f6c440916291}</Project>
+            <Name>BudgetPlanner.ViewModels</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\BudgetPlanner.ViewModels\BudgetPlanner.ViewModels.csproj">
+            <Project>{50ff67fb-bed4-46cf-8a1f-f6c440916291}</Project>
+            <Name>BudgetPlanner.ViewModels</Name>
+        </ProjectReference>
+    </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

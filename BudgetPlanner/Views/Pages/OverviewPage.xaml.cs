@@ -1,12 +1,11 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace BudgetPlanner.Views.Pages
+namespace BudgetPlanner.Views.Pages;
+
+public sealed partial class OverviewPage : Page
 {
-    public sealed partial class OverviewPage : Page
+    public OverviewPage()
     {
-        public OverviewPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

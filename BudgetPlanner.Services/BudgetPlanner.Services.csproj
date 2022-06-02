@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+      <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BudgetPlanner.DataAccess.Implementation\BudgetPlanner.DataAccess.Implementation.csproj" />
+    <ProjectReference Include="..\BudgetPlanner.DataAccess\BudgetPlanner.DataAccess.csproj" />
+    <ProjectReference Include="..\BudgetPlanner.ViewModels.Implementation\BudgetPlanner.ViewModels.Implementation.csproj" />
+    <ProjectReference Include="..\BudgetPlanner.ViewModels\BudgetPlanner.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

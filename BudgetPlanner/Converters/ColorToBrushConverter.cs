@@ -4,28 +4,27 @@ using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace BudgetPlanner.Converters
+namespace BudgetPlanner.Converters;
+
+internal class ColorToBrushConverter : IValueConverter
 {
-    internal class ColorToBrushConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, string language)
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        if (value is not System.Drawing.Color color)
         {
-            if (value is not Color color)
-            {
-                return new SolidColorBrush();
-            }
-
-            return new SolidColorBrush(color);
+            return new SolidColorBrush();
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            if (value is not SolidColorBrush brush)
-            {
-                return default(Color);
-            }
+        return new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+    }
 
-            return brush.Color;
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        if (value is not SolidColorBrush brush)
+        {
+            return default(Color);
         }
+
+        return System.Drawing.Color.FromArgb(brush.Color.A, brush.Color.R, brush.Color.G, brush.Color.B);
     }
 }

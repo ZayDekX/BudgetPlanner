@@ -1,26 +1,22 @@
-﻿using System;
+﻿using BudgetPlanner.ViewModels;
 
-using BudgetPlanner.Providers;
-using BudgetPlanner.ViewModels;
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
-using Windows.UI.Core;
+namespace BudgetPlanner.Views.Controls;
 
-namespace BudgetPlanner.Views.Controls
+public sealed partial class Overview
 {
-    public sealed partial class Overview
+    public IOverviewViewModel ViewModel { get; set; }
+
+    public Overview()
     {
-        public OverviewViewModel ViewModel { get; } = new(DataProvider.Instance);
+        InitializeComponent();
+        Loaded += Update;
+    }
 
-        public Overview()
-        {
-            InitializeComponent();
-            Loaded += Update;
-        }
-
-        private async void Update(object sender, object args)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, ViewModel.Update);
-        }
+    private void Update(object sender, object args)
+    {
+        ViewModel = Ioc.Default.GetRequiredService<IOverviewViewModel>();
+        ViewModel.UpdateCommand.Execute(null);
     }
 }
-    

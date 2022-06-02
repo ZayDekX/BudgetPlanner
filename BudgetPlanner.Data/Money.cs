@@ -2,32 +2,20 @@
 
 public class Money
 {
-    public Money(int value, string marker)
-    {
-        _value = value;
-        CurrencyMarker = marker;
-    }
-
-    public Money(double value, string marker)
+    public Money(double value)
     {
         _value = (int)(value * 100);
-        CurrencyMarker = marker;
     }
 
     public double Amount => _value / 100d;
 
     private readonly int _value;
 
-    public string CurrencyMarker { get; }
-
-    public static Money Zero(string marker)
-    {
-        return new Money(0, marker);
-    }
+    public static Money Zero { get; } = new Money(0d);
 
     public override string ToString()
     {
-        return $"{Amount:n2} {CurrencyMarker}";
+        return $"{Amount:n2}";
     }
 
     public int CompareTo(Money spent)

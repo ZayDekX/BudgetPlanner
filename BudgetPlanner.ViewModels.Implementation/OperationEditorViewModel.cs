@@ -3,36 +3,40 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
-using BudgetPlanner.Commands;
 using BudgetPlanner.Data;
+using BudgetPlanner.DataAccess.Providers;
 using BudgetPlanner.Models;
-using BudgetPlanner.Providers;
+using BudgetPlanner.Utils.Commands;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace BudgetPlanner.ViewModels;
+namespace BudgetPlanner.ViewModels.Implementation;
 
-public class OperationEditorViewModel : ObservableObject
+public class OperationEditorViewModel : ObservableObject, IOperationEditorViewModel
 {
-    public OperationEditorViewModel(IDataProvider dataProvider, Operation seed)
+    public OperationEditorViewModel(IOperationProvider dataProvider, ICategoryProvider categoryProvider)
     {
-        _dataProvider = dataProvider;
-
-        _operationId = seed.OperationId;
-        Amount = seed.Amount;
-        Comment = seed.Comment;
-        Category = seed.Category;
-        Date = seed.DateTime.Date;
-        Time = seed.DateTime.TimeOfDay;
+        _operationProvider = dataProvider;
+        _categoryProvider = categoryProvider;
 
         ValidateAndUpdateOperationCommand = new DispatcherCommand(ValidateAndUpdateOperation);
         UpdateCommand = new DispatcherCommand(Update);
     }
 
+    public void Init(IOperationViewModel viewModel)
+    {
+        _operationId = viewModel.Id;
+        Amount = viewModel.Amount;
+        Comment = viewModel.Comment;
+        Category = viewModel.Category;
+        Date = viewModel.DateTime.Date;
+        Time = viewModel.DateTime.TimeOfDay;
+    }
+
     private void Update()
     {
-        AvailableOperationCategories = new(_dataProvider.GetCategories());
-        Category = AvailableOperationCategories.First(c => c.OperationCategoryId == Category.OperationCategoryId);
+        AvailableCategories = new(_categoryProvider.GetCategories().Select(c => new CategoryViewModel(c)));
+        Category = AvailableCategories.First(c => c.Id == (Category?.Id ?? 0));
     }
 
     private void ValidateAndUpdateOperation()
@@ -45,19 +49,21 @@ public class OperationEditorViewModel : ObservableObject
         UpdateOperation();
     }
 
-    private readonly int _operationId;
+    private int _operationId;
 
     private Money _amount;
     private string _comment;
-    private OperationCategory _category;
+    private ICategoryViewModel _category;
     private DateTimeOffset _date;
     private TimeSpan _time;
-    private ObservableCollection<OperationCategory> _availableOperationCategories = new();
-    private readonly IDataProvider _dataProvider;
+    private ObservableCollection<ICategoryViewModel> _availableOperationCategories = new();
+    
+    private readonly IOperationProvider _operationProvider;
+    private readonly ICategoryProvider _categoryProvider;
 
     public ICommand UpdateCommand { get; }
 
-    public ObservableCollection<OperationCategory> AvailableOperationCategories
+    public ObservableCollection<ICategoryViewModel> AvailableCategories
     {
         get => _availableOperationCategories;
         set => SetProperty(ref _availableOperationCategories, value);
@@ -75,7 +81,7 @@ public class OperationEditorViewModel : ObservableObject
         set => SetProperty(ref _comment, value);
     }
 
-    public OperationCategory Category
+    public ICategoryViewModel Category
     {
         get => _category;
         set => SetProperty(ref _category, value);
@@ -104,6 +110,6 @@ public class OperationEditorViewModel : ObservableObject
             return;
         }
 
-        _dataProvider.Update(new Operation(_amount, _category, _comment, _date.DateTime + _time) { OperationId = _operationId });
+        _operationProvider.Update(new Operation(_amount, _category.AsModel(), _comment, _date.DateTime + _time) { OperationId = _operationId });
     }
 }

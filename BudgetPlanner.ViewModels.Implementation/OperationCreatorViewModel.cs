@@ -3,39 +3,43 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
-using BudgetPlanner.Commands;
 using BudgetPlanner.Data;
+using BudgetPlanner.DataAccess.Providers;
 using BudgetPlanner.Models;
-using BudgetPlanner.Providers;
+using BudgetPlanner.Utils.Commands;
 
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace BudgetPlanner.ViewModels;
+namespace BudgetPlanner.ViewModels.Implementation;
 
-internal class OperationCreatorViewModel : ObservableObject
+public class OperationCreatorViewModel : ObservableObject, IOperationCreatorViewModel
 {
-    public OperationCreatorViewModel(IDataProvider dataProvider)
+    public OperationCreatorViewModel(IOperationProvider opetaionProvider, ICategoryProvider categoryProvider)
     {
         ValidateAndCreateOperationCommand = new DispatcherCommand(CreateOperation);
         UpdateCommand = new DispatcherCommand(Update);
 
         Date = DateTime.Today;
         Time = DateTime.Now - DateTime.Today;
-        _dataProvider = dataProvider;
+
+        _operationProvider = opetaionProvider;
+        _categoryProvider = categoryProvider;
     }
-    
+
     private Money _amount;
     private string _comment;
-    private OperationCategory _category;
+    private ICategoryViewModel _category;
     private DateTimeOffset _date;
     private TimeSpan _time;
-    private ObservableCollection<OperationCategory> _availableOperationCategories = new();
-    private readonly IDataProvider _dataProvider;
+    private ObservableCollection<ICategoryViewModel> _availableCategories = new();
 
-    public ObservableCollection<OperationCategory> AvailableOperationCategories
+    private readonly IOperationProvider _operationProvider;
+    private readonly ICategoryProvider _categoryProvider;
+
+    public ObservableCollection<ICategoryViewModel> AvailableCategories
     {
-        get => _availableOperationCategories;
-        set => SetProperty(ref _availableOperationCategories, value);
+        get => _availableCategories;
+        set => SetProperty(ref _availableCategories, value);
     }
 
     public ICommand ValidateAndCreateOperationCommand { get; }
@@ -54,7 +58,7 @@ internal class OperationCreatorViewModel : ObservableObject
         set => SetProperty(ref _comment, value);
     }
 
-    public OperationCategory Category
+    public ICategoryViewModel Category
     {
         get => _category;
         set => SetProperty(ref _category, value);
@@ -76,8 +80,7 @@ internal class OperationCreatorViewModel : ObservableObject
 
     private void Update()
     {
-        AvailableOperationCategories = new(_dataProvider.GetCategories());
-        Category = AvailableOperationCategories.FirstOrDefault(c => c.OperationCategoryId == (Category?.OperationCategoryId ?? 0));
+        AvailableCategories = new(_categoryProvider.GetCategories().Select(c => new CategoryViewModel(c)));
     }
 
     private void CreateOperation()
@@ -87,6 +90,6 @@ internal class OperationCreatorViewModel : ObservableObject
             return;
         }
 
-        _dataProvider.Add(new Operation(_amount, _category, _comment, _date.DateTime + _time));
+        _operationProvider.Add(new Operation(_amount, _category.AsModel(), _comment, _date.DateTime + _time));
     }
 }

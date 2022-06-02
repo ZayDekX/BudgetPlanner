@@ -4,14 +4,14 @@ using BudgetPlanner.Data;
 
 namespace BudgetPlanner.Models;
 
-public sealed class OperationData
+public sealed class Operation
 {
-    public OperationData()
+    public Operation()
     {
 
     }
 
-    public OperationData(Money money, OperationCategory category, string comment, DateTime dateTime)
+    public Operation(Money money, Category category, string comment, DateTime dateTime)
     {
         Amount = money;
         Category = category;
@@ -23,7 +23,7 @@ public sealed class OperationData
 
     public Money Amount { get; set; }
 
-    public OperationCategory Category { get; set; }
+    public Category Category { get; set; }
 
     public DateTime DateTime { get; set; }
 

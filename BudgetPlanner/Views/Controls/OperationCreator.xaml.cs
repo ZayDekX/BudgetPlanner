@@ -1,38 +1,39 @@
-﻿using BudgetPlanner.Providers;
-using BudgetPlanner.ViewModels;
+﻿using BudgetPlanner.ViewModels;
+
+using Microsoft.Toolkit.Mvvm.DependencyInjection;
 
 using Windows.UI.Xaml.Controls;
 
-namespace BudgetPlanner.Views.Controls
+namespace BudgetPlanner.Views.Controls;
+
+public sealed partial class OperationCreatorView
 {
-    public sealed partial class OperationCreatorView
+    internal IOperationCreatorViewModel ViewModel { get; set; }
+
+    public OperationCreatorView()
     {
-        internal OperationCreatorViewModel ViewModel { get; set; } = new(DataProvider.Instance);
+        InitializeComponent();
+        Loaded += Update;
+    }
 
-        public OperationCreatorView()
+    private void Update(object sender, object args)
+    {
+        ViewModel = Ioc.Default.GetRequiredService<IOperationCreatorViewModel>();
+        ViewModel.UpdateCommand.Execute(null);
+    }
+
+    private void OnCancelClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+    {
+        App.CurrentShell.GoBack();
+    }
+
+    public void ValidateAmount(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+    {
+        if (string.IsNullOrEmpty(args.NewText) || float.TryParse(args.NewText, out _))
         {
-            InitializeComponent();
-            Loaded += Update;
+            return;
         }
 
-        private void Update(object sender, object args)
-        {
-            ViewModel.UpdateCommand.Execute(null);
-        }
-
-        private void OnCancelClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            App.CurrentShell.GoBack();
-        }
-
-        public void ValidateAmount(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
-        {
-            if (string.IsNullOrEmpty(args.NewText) || float.TryParse(args.NewText, out _))
-            {
-                return;
-            }
-
-            args.Cancel = true;
-        }
+        args.Cancel = true;
     }
 }

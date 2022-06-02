@@ -2,10 +2,9 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace BudgetPlanner.Views
+namespace BudgetPlanner.Views;
+
+public class PageNavigator : NavigationViewItem
 {
-    public class PageNavigator : NavigationViewItem
-    {
-        public Type PageType { get; set; }
-    }
+    public Type PageType { get; set; }
 }
