@@ -7,15 +7,15 @@ namespace BudgetPlanner.DataAccess.Implementation.Providers;
 
 public class CategoryProvider : ICategoryProvider
 {
-    private readonly IDataSource _dataSource;
+    private readonly IDataSourceProvider _dataSourceProvider;
 
-    public CategoryProvider(IDataSource dataSource)
+    public CategoryProvider(IDataSourceProvider dataSource)
     {
-        _dataSource = dataSource;
+        _dataSourceProvider = dataSource;
     }
 
     public IEnumerable<Category> GetCategories()
     {
-        return _dataSource.Categories;
+        return _dataSourceProvider.GetInstance().Categories;
     }
 }

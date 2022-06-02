@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Input;
 
 using BudgetPlanner.Data;
 
 namespace BudgetPlanner.ViewModels;
-public interface IOperationCreatorViewModel
+public interface IOperationCreatorViewModel : INotifyPropertyChanged
 {
     Money Amount { get; set; }
 

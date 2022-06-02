@@ -6,7 +6,7 @@ namespace BudgetPlanner.Views.Controls;
 
 public sealed partial class Overview
 {
-    public IOverviewViewModel ViewModel { get; set; }
+    public IOverviewViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<IOverviewViewModel>();
 
     public Overview()
     {
@@ -16,7 +16,6 @@ public sealed partial class Overview
 
     private void Update(object sender, object args)
     {
-        ViewModel = Ioc.Default.GetRequiredService<IOverviewViewModel>();
         ViewModel.UpdateCommand.Execute(null);
     }
 }

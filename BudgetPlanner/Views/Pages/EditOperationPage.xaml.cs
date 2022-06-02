@@ -20,7 +20,9 @@ public sealed partial class EditOperationPage
             return;
         }
 
-        View.ViewModel = Ioc.Default.GetRequiredService<IOperationEditorViewModel>();
-        View.ViewModel.Init(viewModel);
+        var editorViewModel = Ioc.Default.GetRequiredService<IOperationEditorViewModel>();
+        editorViewModel.Init(viewModel);
+
+        View.DataContext = editorViewModel;
     }
 }

@@ -54,7 +54,7 @@ public class BudgetPlannerDataSource : DbContext, IDataSource
                 .Property(e => e.Amount)
                 .HasConversion(
                     v => (int)(v.Amount * 100),
-                    v => new Money(v));
+                    v => new Money(v / 100d));
             builder
                 .Property(e => e.Category)
                 .HasConversion(
@@ -70,6 +70,6 @@ public class BudgetPlannerDataSource : DbContext, IDataSource
 
     public void Attach(Category category)
     {
-        throw new System.NotImplementedException();
+        Categories.Attach(category);
     }
 }

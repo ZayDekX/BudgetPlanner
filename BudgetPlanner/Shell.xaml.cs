@@ -4,6 +4,7 @@ using BudgetPlanner.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace BudgetPlanner;
 
@@ -20,7 +21,7 @@ public sealed partial class Shell
         where TPage : NavigateablePage
     {
         _isExternalNavigation = true;
-        RootContainer.Navigate(typeof(TPage), args);
+        RootContainer.Navigate(typeof(TPage), args, new DrillInNavigationTransitionInfo());
 
         Navigation.SelectedItem = ((TPage)RootContainer.Content).Navigator;
         _isExternalNavigation = false;

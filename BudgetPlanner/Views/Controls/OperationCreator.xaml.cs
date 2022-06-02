@@ -8,7 +8,7 @@ namespace BudgetPlanner.Views.Controls;
 
 public sealed partial class OperationCreatorView
 {
-    internal IOperationCreatorViewModel ViewModel { get; set; }
+    private IOperationCreatorViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<IOperationCreatorViewModel>();
 
     public OperationCreatorView()
     {
@@ -18,7 +18,6 @@ public sealed partial class OperationCreatorView
 
     private void Update(object sender, object args)
     {
-        ViewModel = Ioc.Default.GetRequiredService<IOperationCreatorViewModel>();
         ViewModel.UpdateCommand.Execute(null);
     }
 

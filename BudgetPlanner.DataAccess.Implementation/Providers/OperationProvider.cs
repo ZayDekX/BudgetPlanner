@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using BudgetPlanner.DataAccess.Providers;
 using BudgetPlanner.Models;
@@ -8,16 +7,16 @@ namespace BudgetPlanner.DataAccess.Implementation.Providers;
 
 public class OperationProvider : IOperationProvider
 {
-    private readonly IDataSource _dataSource;
+    private readonly IDataSourceProvider _dataSourceProvider;
 
-    public OperationProvider(IDataSource dataSource)
+    public OperationProvider(IDataSourceProvider dataSource)
     {
-        _dataSource = dataSource;
+        _dataSourceProvider = dataSource;
     }
 
     public IEnumerable<Operation> GetOperations()
     {
-        var source = _dataSource;
+        var source = _dataSourceProvider.GetInstance();
 
         return source.Operations;
     }
@@ -25,23 +24,29 @@ public class OperationProvider : IOperationProvider
     public void Delete(int operationId)
     {
         var operation = new Operation() { OperationId = operationId };
-        
-        _dataSource.Operations.Attach(operation);
-        _dataSource.Operations.Remove(operation);
 
-        _dataSource.SaveChanges();
+        var source = _dataSourceProvider.GetInstance();
+
+        source.Operations.Attach(operation);
+        source.Operations.Remove(operation);
+
+        source.SaveChanges();
     }
 
     public void Add(Operation operation)
     {
-        _dataSource.Operations.Add(operation);
-        _dataSource.Attach(operation.Category);
-        _dataSource.SaveChanges();
+        var source = _dataSourceProvider.GetInstance();
+
+        source.Operations.Add(operation);
+        source.Attach(operation.Category);
+        source.SaveChanges();
     }
 
     public void Update(Operation operation)
     {
-        _dataSource.Operations.Update(operation);
-        _dataSource.SaveChanges();
+        var source = _dataSourceProvider.GetInstance();
+
+        source.Operations.Update(operation);
+        source.SaveChanges();
     }
 }

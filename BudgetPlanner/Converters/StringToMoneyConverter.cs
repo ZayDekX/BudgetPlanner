@@ -15,7 +15,7 @@ public class StringToMoneyConverter : IValueConverter
             return "0";
         }
 
-        if (parameter is true)
+        if (parameter is false)
         {
             return money.ToString();
         }
@@ -32,7 +32,7 @@ public class StringToMoneyConverter : IValueConverter
             return Money.Zero;
         }
 
-        var i = str.IndexOf(' ');
+        var i = str.IndexOfAny(new[] { ' ', Settings.CurrencyMarker[0] });
 
         if (i <= 0)
         {

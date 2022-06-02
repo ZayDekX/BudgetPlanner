@@ -36,7 +36,7 @@ public class OperationEditorViewModel : ObservableObject, IOperationEditorViewMo
     private void Update()
     {
         AvailableCategories = new(_categoryProvider.GetCategories().Select(c => new CategoryViewModel(c)));
-        Category = AvailableCategories.First(c => c.Id == (Category?.Id ?? 0));
+        Category = AvailableCategories.FirstOrDefault(c => c.Id == (Category?.Id ?? 0));
     }
 
     private void ValidateAndUpdateOperation()
@@ -57,7 +57,7 @@ public class OperationEditorViewModel : ObservableObject, IOperationEditorViewMo
     private DateTimeOffset _date;
     private TimeSpan _time;
     private ObservableCollection<ICategoryViewModel> _availableOperationCategories = new();
-    
+
     private readonly IOperationProvider _operationProvider;
     private readonly ICategoryProvider _categoryProvider;
 

@@ -13,10 +13,14 @@ namespace BudgetPlanner.ViewModels.Implementation;
 
 public class HistoryViewModel : ObservableObject, IHistoryViewModel
 {
-    public HistoryViewModel(IOperationProvider dataProvider)
+    public HistoryViewModel(IOperationProvider operationProvider)
     {
         UpdateCommand = new DispatcherCommand(Update);
-        _operationProvider = dataProvider;
+        UpdateDateRangeCommand = new DispatcherCommand<(DateTimeOffset, DateTimeOffset)>(UpdateDateRange);
+        DeselectRangeCommand = new DispatcherCommand(DeselectRange);
+        DeleteSelectedOperationCommand = new DispatcherCommand(DeleteSelectedOperation);
+
+        _operationProvider = operationProvider;
     }
 
     private IOperationViewModel _selectedOperation;
@@ -24,10 +28,18 @@ public class HistoryViewModel : ObservableObject, IHistoryViewModel
 
     public ICommand UpdateCommand { get; }
 
+    public ICommand DeleteSelectedOperationCommand { get; }
+
+    public ICommand DeselectRangeCommand { get; }
+
+    public ICommand UpdateDateRangeCommand { get; }
+
     private readonly IOperationProvider _operationProvider;
 
     private DateTimeOffset _startDate;
     private DateTimeOffset _endDate;
+    private bool _showAllOperations = true;
+    private string _periodSelectorText = "Period";
 
     public ObservableCollection<IGrouping<DateTime, IOperationViewModel>> AvailableOperations
     {
@@ -41,6 +53,12 @@ public class HistoryViewModel : ObservableObject, IHistoryViewModel
         set => SetProperty(ref _selectedOperation, value);
     }
 
+    public string PeriodSelectorText
+    {
+        get => _periodSelectorText;
+        set => SetProperty(ref _periodSelectorText, value);
+    }
+
     private void Update()
     {
         var operations = _operationProvider.GetOperations().Select(o => new OperationViewModel(o));
@@ -51,12 +69,29 @@ public class HistoryViewModel : ObservableObject, IHistoryViewModel
     private IEnumerable<IGrouping<DateTime, IOperationViewModel>> FilterOperations(IEnumerable<IOperationViewModel> operations)
     {
         return operations
-            .Where(o => o.DateTime >= _startDate && o.DateTime <= _endDate)
+            .Where(o => _showAllOperations || o.DateTime.Date >= _startDate.Date && o.DateTime.Date <= _endDate.Date)
             .OrderByDescending(o => o.DateTime)
-            .GroupBy(o => o.DateTime);
+            .GroupBy(o => o.DateTime.Date);
     }
 
-    public void DeleteSelectedOperation()
+    private void UpdateDateRange((DateTimeOffset startDate, DateTimeOffset endDate) args)
+    {
+        (_startDate, _endDate) = args;
+        _showAllOperations = false;
+
+        PeriodSelectorText = $"{_startDate:dd.MM.yyyy}-{_endDate:dd.MM.yyyy}";
+        Update();
+    }
+
+    private void DeselectRange()
+    {
+        _showAllOperations = true;
+
+        PeriodSelectorText = "Period";
+        Update();
+    }
+
+    private void DeleteSelectedOperation()
     {
         _operationProvider.Delete(SelectedOperation.Id);
         SelectedOperation = null;

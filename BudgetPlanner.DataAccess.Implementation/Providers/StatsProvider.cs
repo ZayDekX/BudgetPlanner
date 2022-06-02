@@ -1,46 +1,48 @@
-﻿using BudgetPlanner.Data;
+﻿using System;
 using System.Collections.Generic;
-using System;
-
-using BudgetPlanner.DataAccess.Providers;
 using System.Linq;
+
+using BudgetPlanner.Data;
+using BudgetPlanner.DataAccess.Providers;
 using BudgetPlanner.Models;
 
 namespace BudgetPlanner.DataAccess.Implementation.Providers;
 
 public class StatsProvider : IStatsProvider
 {
-    public StatsProvider(IDataSource dataSource)
+    public StatsProvider(IDataSourceProvider dataSource)
     {
-        _dataSource = dataSource;
+        _dataSourceProvider = dataSource;
     }
 
-    private readonly IDataSource _dataSource;
- 
+    private readonly IDataSourceProvider _dataSourceProvider;
+
     public IEnumerable<CategoryStats> GetCategoryStats(DateTime startDate)
     {
-        var source = _dataSource;
+        var source = _dataSourceProvider.GetInstance();
 
-        var categories = source.Categories.AsEnumerable();
+        var categories = source.Categories.ToList();
         var operations = FilterOperations(source.Operations.AsEnumerable(), startDate, OperationType.Outcome).ToList();
 
-        var stats = categories
+        return categories
             .Take(Math.Min(categories.Count(), 5))
-            .Select(c => new CategoryStats(c, Sum(operations.Where(o => o.Category.CategoryId == c.CategoryId))))
+            .Select(c => new CategoryStats(c, new(operations.Where(o => o.Category.CategoryId == c.CategoryId).Select(o => o.Amount.Amount).Sum())))
             .Where(s => s.Spent > 0);
-
-        return stats;
     }
 
     public Money GetIncomes(DateTime startDate)
     {
-        var operations = FilterOperations(_dataSource.Operations.AsEnumerable(), startDate, OperationType.Income);
+        var source = _dataSourceProvider.GetInstance();
+
+        var operations = FilterOperations(source.Operations.AsEnumerable(), startDate, OperationType.Income);
         return Sum(operations);
     }
 
     public Money GetOutcomes(DateTime startDate)
     {
-        var operations = FilterOperations(_dataSource.Operations.AsEnumerable(), startDate, OperationType.Outcome);
+        var source = _dataSourceProvider.GetInstance();
+
+        var operations = FilterOperations(source.Operations.AsEnumerable(), startDate, OperationType.Outcome);
         return Sum(operations);
     }
 
@@ -56,6 +58,8 @@ public class StatsProvider : IStatsProvider
 
     public Money GetAvailable()
     {
-        return new(_dataSource.Operations.AsEnumerable().Select(o => o.Amount.Amount * (o.Category.OperationType == OperationType.Outcome ? -1 : 1)).Sum());
+        var source = _dataSourceProvider.GetInstance();
+
+        return new(source.Operations.AsEnumerable().Select(o => o.Amount.Amount * (o.Category.OperationType == OperationType.Outcome ? -1 : 1)).Sum());
     }
 }

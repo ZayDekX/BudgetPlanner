@@ -8,7 +8,7 @@
     xmlns:viewmodels="using:BudgetPlanner.ViewModels" 
     xmlns:uwpConverters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters="using:BudgetPlanner.Converters"
-    xmlns:core="using:Windows.UI.Core"
+    xmlns:core="using:Windows.UI.Core" xmlns:controls="using:BudgetPlanner.Views.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"
@@ -38,7 +38,7 @@
             </Grid.ColumnDefinitions>
             
             <DropDownButton Grid.Column="0"
-                Content="{x:Bind PeriodSelectorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Content="{x:Bind ViewModel.PeriodSelectorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 BorderBrush="{ThemeResource SystemControlBackgroundTransparentRevealBorderBrush}"
                 Background="Transparent"
                 CornerRadius="4">
@@ -52,11 +52,11 @@
                                 <Setter Property="CornerRadius" Value="8"/>
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
-                        <CalendarView 
-                            SelectionMode="Multiple" 
+                        <controls:CalendarRangePicker
                             CornerRadius="8"
-                            SelectedDatesChanged="CalendarViewSelectedDatesChanged">
-                        </CalendarView>
+                            DateRangeChanged="OnCalendarViewSelectedDatesChanged"
+                            DateRangeDeselected="OnCalendarViewDatesDeselected">
+                        </controls:CalendarRangePicker>
                     </Flyout>
                 </DropDownButton.Flyout>
             </DropDownButton>
@@ -115,15 +115,23 @@
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0"
-                            Text="{x:Bind Category.Name}" 
-                                   Foreground="#888888" 
-                                   FontSize="12"/>
+                        <StackPanel Grid.Row="0" Grid.Column="0"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+                            <TextBlock 
+                                Text="{Binding DateTime, Converter={StaticResource FormatStringConverter}, ConverterParameter=HH:mm}" 
+                                Foreground="#888888" 
+                                FontSize="12"/>
 
+                            <TextBlock
+                                Text="{x:Bind Category.Name}" 
+                                FontSize="12"/>
+                        </StackPanel>
+                        
                         <TextBlock Grid.Row="1" Grid.Column="1"
                             Text="{x:Bind Comment}"
                                    FontSize="16"/>

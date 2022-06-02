@@ -8,7 +8,7 @@ namespace BudgetPlanner.DataAccess.Providers;
 public interface IStatsProvider
 {
     IEnumerable<CategoryStats> GetCategoryStats(DateTime startDate);
-    
+
     Money GetIncomes(DateTime startDate);
 
     Money GetOutcomes(DateTime startDate);

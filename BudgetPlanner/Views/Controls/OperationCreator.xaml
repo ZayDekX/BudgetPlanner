@@ -5,7 +5,7 @@
     xmlns:local="using:BudgetPlanner.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:converters="using:BudgetPlanner.Converters" 
+    xmlns:converters="using:BudgetPlanner.Converters" xmlns:viewmodels="using:BudgetPlanner.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="400">
@@ -43,7 +43,13 @@
                 Header="Category" 
                 PlaceholderText="Select category"
                 SelectedItem="{x:Bind ViewModel.Category, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                ItemsSource="{x:Bind ViewModel.AvailableCategories, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                ItemsSource="{x:Bind ViewModel.AvailableCategories, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:ICategoryViewModel">
+                        <TextBlock Text="{x:Bind Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </ListViewItem>
 
         <ListViewItem>

@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-
-using BudgetPlanner.Models;
+﻿using BudgetPlanner.Models;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetPlanner.DataAccess;
-
 public interface IDataSource
 {
     DbSet<Operation> Operations { get; }

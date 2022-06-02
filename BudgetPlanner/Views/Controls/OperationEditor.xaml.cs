@@ -1,6 +1,5 @@
-﻿using BudgetPlanner.ViewModels;
-
-using Microsoft.Toolkit.Mvvm.DependencyInjection;
+﻿using BudgetPlanner.Data;
+using BudgetPlanner.ViewModels;
 
 using Windows.UI.Xaml.Controls;
 
@@ -8,7 +7,7 @@ namespace BudgetPlanner.Views.Controls;
 
 public sealed partial class OperationEditor
 {
-    public IOperationEditorViewModel ViewModel { get; set; }
+    private IOperationEditorViewModel ViewModel => (IOperationEditorViewModel)DataContext;
 
     public OperationEditor()
     {
@@ -18,13 +17,14 @@ public sealed partial class OperationEditor
 
     private void Update(object sender, object args)
     {
-        ViewModel = Ioc.Default.GetRequiredService<IOperationEditorViewModel>();
         ViewModel.UpdateCommand.Execute(null);
     }
 
     private void ValidateAmount(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
     {
-        if (string.IsNullOrEmpty(args.NewText) || float.TryParse(args.NewText, out _))
+        var text = args.NewText.TrimEnd(Settings.CurrencyMarker.ToCharArray());
+
+        if (string.IsNullOrEmpty(text) || float.TryParse(text, out _))
         {
             return;
         }

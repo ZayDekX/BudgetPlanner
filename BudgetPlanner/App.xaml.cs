@@ -33,7 +33,7 @@ public sealed partial class App : Application
     /// <param name="e">Details about the launch request and process.</param>
     protected override void OnLaunched(LaunchActivatedEventArgs e)
     {
-        var services = 
+        var services =
             new ServiceCollection()
             .AddDataAccessServices()
             .AddViewModelServices();
@@ -41,7 +41,7 @@ public sealed partial class App : Application
         Ioc.Default.ConfigureServices(services.BuildServiceProvider());
 
         Window.Current.Content = new Shell();
-        
+
         if (e.PrelaunchActivated)
         {
             return;
@@ -60,7 +60,7 @@ public sealed partial class App : Application
     private void OnSuspending(object sender, SuspendingEventArgs e)
     {
         var deferral = e.SuspendingOperation.GetDeferral();
-        
+
         deferral.Complete();
     }
 }

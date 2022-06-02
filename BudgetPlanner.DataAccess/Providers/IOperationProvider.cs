@@ -1,5 +1,6 @@
-﻿using BudgetPlanner.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
+using BudgetPlanner.Models;
 
 namespace BudgetPlanner.DataAccess.Providers;
 public interface IOperationProvider

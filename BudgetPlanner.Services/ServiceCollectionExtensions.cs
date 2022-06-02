@@ -23,9 +23,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddDataAccessServices(this IServiceCollection collection)
     {
         return collection
-            .AddTransient<IDataSource, BudgetPlannerDataSource>()
-            .AddTransient<IOperationProvider, OperationProvider>()
-            .AddTransient<ICategoryProvider, CategoryProvider>()
-            .AddTransient<IStatsProvider, StatsProvider>();
+            .AddSingleton<IDataSourceProvider, DataSourceProvider>()
+            .AddSingleton<IOperationProvider, OperationProvider>()
+            .AddSingleton<ICategoryProvider, CategoryProvider>()
+            .AddSingleton<IStatsProvider, StatsProvider>();
     }
 }

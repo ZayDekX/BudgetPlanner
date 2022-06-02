@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 
-using BudgetPlanner.DataAccess.Providers;
 using BudgetPlanner.Data;
-
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using BudgetPlanner.DataAccess.Providers;
 using BudgetPlanner.Models;
 using BudgetPlanner.Utils.Commands;
-using System.Windows.Input;
+
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace BudgetPlanner.ViewModels.Implementation;
 
@@ -84,8 +84,6 @@ public class OverviewViewModel : ObservableObject, IOverviewViewModel
 
     private void Update()
     {
-        var operations =
-
         Available = _statsProvider.GetAvailable();
 
         Incomes = _statsProvider.GetIncomes(SelectedPeriodStart);

@@ -50,7 +50,7 @@
         </controls:NavigationView.MenuItems>
         
         <Frame 
-            Padding="40 0 8 0"
+            Padding="8 0 0 0"
             x:Name="RootContainer"/>
     </controls:NavigationView>
 </UserControl>

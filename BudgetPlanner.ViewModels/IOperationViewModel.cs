@@ -8,13 +8,13 @@ namespace BudgetPlanner.ViewModels;
 public interface IOperationViewModel
 {
     Money Amount { get; }
-    
+
     Color AmountForeground { get; }
-    
+
     string AmountSign { get; }
-    
+
     string Comment { get; }
-    
+
     DateTime DateTime { get; }
 
     int Id { get; }
